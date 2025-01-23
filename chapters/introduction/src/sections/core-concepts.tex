@@ -1,0 +1,43 @@
+\section{Core Concepts}
+\label{thesis:intro-concepts}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.6\columnwidth]{sw-stack.drawio.pdf}
+    \caption[Hardware and software stack in a modern computing system]{Overview of the hardware and software stack in a modern computing system. The security of each layer depends on the layers below, meaning that a compromise at a certain layer might break the confidentiality and integrity not only in that layer, but also all the layers above.}
+    \label{fig:phd-intro-stack}
+\end{figure}
+
+In this section, we provide a short summary of basic principles of computing and
+security that are relevant for this dissertation. Here, we do not aim to be
+comprehensive, and we make a few simplifications for the sake of brevity.
+
+\cref{fig:phd-intro-stack} shows the main hardware and software layers and
+components of a modern computing system. At the bottom, the hardware layer
+includes the main CPU and firmware, memory and disks, network interfaces, and
+peripheral devices such as clock, co-processors, GPU, and so on. Here, we may
+also find security modules such as the \ac{TPM}~\cite{tpmdoc}. Going up there is
+the virtualization layer, where a hypervisor or \ac{VMM} is responsible for
+managing one or more \acp{VM}. Physical resources such as CPU cores and memory
+are then \emph{virtualized} and can be assigned to multiple \acp{VM}, enabling
+concurrency. Note that the virtualization layer is optional, though it is widely
+used in cloud settings to run multiple workloads on the same physical node,
+effectively optimizing resource utilization and reducing costs. Next there is
+the OS layer, which includes components such as the kernel, kernel modules and
+device drivers. This layer is responsible for bridging the gap between
+applications and the underlying hardware resources (which may be virtualized if
+running within a \ac{VM}), and for providing isolation, communication and
+scheduling mechanisms. Lastly, the application layer contains applications,
+libraries and runtimes that run the actual workloads.
+
+In a traditional system, the security of a certain layer is enforced by the
+layer below, providing mechanisms such as resource separation and virtualization
+to isolate different applications (enforced by the OS layer) and \acp{VM}
+(enforced by the virtualization layer). This also means that lower layers in the
+stack have full control on the upper layers and can access all their code and
+data. Therefore, a compromise at a certain layer might break the confidentiality
+and integrity both in that layer and all the ones above. To this end, the term
+\ac{TCB} is defined as the sum of all hardware and software components that are
+critical to guarantee the confidentiality and integrity of a certain
+application. To build robust systems, it is therefore important to keep the
+\ac{TCB} as small as possible.

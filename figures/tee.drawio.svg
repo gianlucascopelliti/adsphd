@@ -1,0 +1,86 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="512px" height="301px" viewBox="-0.5 -0.5 512 301" content="&lt;mxfile&gt;&lt;diagram id=&quot;at3iYnYGOxgWTrFWqaeD&quot; name=&quot;Page-1&quot;&gt;7Zhbb9sgFMc/jaXtoRM28aWPnZM2L9EmpeqeqU1sNAwWJrd9+kFC7Dg4arbZidYtD1b8Bwzndw6HiwPjYvMkUJnPeIqp44F048Cx43mjka+eWtjuBdeFwV7JBEmN1ghz8gMbERh1SVJctSpKzqkkZVtMOGM4kS0NCcHX7WoLTtu9lijDljBPELXVbySV+V6NfNDoU0yy/NCzC0xJgQ6VjVDlKOXrIwlOHBgLzuX+X7GJMdXwDlz27R7PlNYDE5jJSxroMt1ihejSGGcGJrcHawVfshTrBq4DPyORGIdA9Wb3Z4awwkLizZFk+n/CvMBSbFUVUwoD0+QQDZFhs27Q1rzyI6zeyIjIuDOrv91YrP4Yo88AcG8OIAS3tB9Y9secLdT8YpIgXfNlph4f4pfZxzfALAilMadc7AohABFSca90zuSRvtj9lF5Jwb/jVgs/3LXQ7Iiabg+UZEyVSV6a7zyiglANaorpCutKpsC4xB21PBT1FKJhO0Q90OEi0OGieuL/iYuUTacumiKRrpVFV/PIxewHoA2DC2n3MR9c34a9LbFYkUpBeQP3LSG514QUWJC+zH8bTjtIA4Du3fBXgtQbh0EdpH1jjk5mfuB/8i3QdcpupeewB9ChBfqhLP8N0tAO6ME427ugd51ho/aO46oJ9i/Jr6eIrplee82ug6PxfDshDoam33w4PJtLN4q9rMr3FpwJSyhavc8kVnOsWYcdS3PYtWL4PawY9qb8q+AJrqq7V1QptB54nkws8Mo2aRFknOETNxipKlFCWKYEv3l71qeh8Z2ngXPFa0F3Nwg5SdWhTWmNc3UNZM5QiSKNxYkroo7DVqG+o4c7wNF21LGmdx5t/R6mQ8dK8zL77xzn7MXLkN5Rr82l1q7s6GoQTn4C&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs>
+        <clipPath id="mx-clip-3-233-214-64-0">
+            <rect x="3" y="233" width="214" height="64"/>
+        </clipPath>
+        <clipPath id="mx-clip-294-233-214-64-0">
+            <rect x="294" y="233" width="214" height="64"/>
+        </clipPath>
+    </defs>
+    <g>
+        <rect x="291" y="0" width="220" height="240" rx="6.6" ry="6.6" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <rect x="0" y="0" width="220" height="240" rx="6.6" ry="6.6" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <rect x="301" y="20" width="200" height="100" rx="8" ry="8" fill="#008a00" stroke="#005700" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="400.5" y="39.5">
+                Confidential VM (CVM)
+            </text>
+        </g>
+        <rect x="301" y="180" width="200" height="40" rx="6" ry="6" fill="#008a00" stroke="#005700" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="400.5" y="205.5">
+                Hardware
+            </text>
+        </g>
+        <rect x="301" y="130" width="200" height="40" rx="6" ry="6" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="400.5" y="155.5">
+                Hypervisor
+            </text>
+        </g>
+        <rect x="311" y="85.5" width="180" height="27" rx="4.05" ry="4.05" fill="#60a917" stroke="#2d7600" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="400.5" y="104.5">
+                OS
+            </text>
+        </g>
+        <rect x="311" y="50" width="180" height="27" rx="4.05" ry="4.05" fill="#60a917" stroke="#2d7600" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="400.5" y="69">
+                App
+            </text>
+        </g>
+        <rect x="10" y="180" width="200" height="40" rx="6" ry="6" fill="#008a00" stroke="#005700" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="109.5" y="205.5">
+                Hardware
+            </text>
+        </g>
+        <rect x="10" y="130" width="200" height="40" rx="6" ry="6" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="109.5" y="155.5">
+                Hypervisor
+            </text>
+        </g>
+        <rect x="10" y="75" width="200" height="40" rx="6" ry="6" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="109.5" y="100.5">
+                OS
+            </text>
+        </g>
+        <rect x="10" y="20" width="200" height="40" rx="6" ry="6" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="109.5" y="45.5">
+                App
+            </text>
+        </g>
+        <rect x="130" y="27.5" width="70" height="25" rx="3.75" ry="3.75" fill="#008a00" stroke="#005700" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="14px">
+            <text x="164.5" y="45.5">
+                Enclave
+            </text>
+        </g>
+        <rect x="0" y="250" width="220" height="50" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#mx-clip-3-233-214-64-0)" text-anchor="middle" font-size="18px">
+            <text x="109.5" y="272.5">
+                Process-based TEE
+            </text>
+        </g>
+        <rect x="291" y="250" width="220" height="50" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" clip-path="url(#mx-clip-294-233-214-64-0)" text-anchor="middle" font-size="18px">
+            <text x="400.5" y="272.5">
+                VM-based TEE
+            </text>
+        </g>
+    </g>
+</svg>

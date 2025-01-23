@@ -1,0 +1,100 @@
+In the last decade, computing systems have become an integral part of our
+society, with all kinds of devices being physically present in the world to
+perform a multitude of tasks, ranging from everyday activities like browsing
+social media and playing video games to sensitive operations such as storing
+bank and health data, controlling robots in industry systems, or driving
+vehicles. Furthermore, boosted by the advent of cloud computing and the
+\ac{IoT}, many applications that originally were composed of a single
+monolithical unit have been split into several parts that are geographically
+distributed and interconnected by a network, continuously exchanging data to
+provide their services. Making traditional systems and appliances intelligent
+does have several advantages that can, among others, improve quality of life and
+reduce costs and waste. In agriculture, for example, devices such as smart
+irrigation systems can dramatically improve efficiency by saving large amounts
+of water, which not only reduces costs but also has a positive impact on the
+environment~\cite{elsayed2021smartFarming}. Similarly, drones can be used to
+monitor the growth of crops and create prescription maps to optimize the
+application of products such as fertilizers or pesticides~\cite{inoue2020drone}.
+From another point of view, assisted and automated driving can increase the
+safety on the road and significantly reduce the number of accidents and
+fatalities~\cite{nhtsaVehicleSafety}.
+
+However, with an increased number of connected devices and applications, several
+concerns have arisen. On the one hand, exposing services and appliances on the
+Internet has made it much easier for attackers to breach into them, which has
+led to several incidents in the past: For example, in 2016 the Mirai botnet
+caused the largest distributed denial of service attack ever recorded, thanks to
+a malware that spread over thousands of vulnerable \ac{IoT} devices connected to
+the Internet~\cite{miraiBotnet}. More recently, in 2021, the Colonial Pipeline
+oil company was victim of a ransomware attack that caused the disruption of the
+fuel supply chain in the United States for several days, due to an insecure VPN
+interface~\cite{colonialPipelineAttack}. On the other hand, applications might
+process sensitive information such as health data or bank details, which raises
+some interesting privacy challenges: Guidelines like the NIST cybersecurity
+framework~\cite{nistcsf} and regulations such as the \ac{GDPR} in Europe and the
+\ac{CCPA} in the United States have been adopted to ensure that companies comply
+with data protection principles to prevent leaks of users' personal information.
+Nevertheless, the number of data breaches in the last years still shows a rising
+trend\footnote{\url{https://www.statista.com/statistics/273550/data-breaches-recorded-in-the-united-states-by-number-of-breaches-and-records-exposed/}}.
+To deal with this increased attack surface, several defense mechanisms have been
+proposed over the years, some of which have been adopted as standard
+countermeasure in all systems. Cryptographic techniques such as symmetric and
+asymmetric encryption are now the standard way to protect the confidentiality
+and integrity of data, both at rest (e.g., when stored on a hard drive) and in
+transit (e.g., during communication between two services). Besides, a mechanism
+to manage identities and certificates, such as a \ac{PKI}~\cite{pki}, can
+provide additional authenticity guarantees, e.g., to make sure that a user is
+communicating with a legitimate server. Instead, protecting data ``in use'',
+i.e., while being processed within a device, is still an open research area that
+has gained considerable interest in recent years, as workloads are being
+offloaded more and more from local, trusted machines to remote servers managed
+by third parties and whose resources are shared among multiple processes.
+
+In this Ph.D. thesis, we focus on a specific solution called
+\acp{TEE}~\cite{schneider2022hardware}, a hardware-based mechanism that allows
+the processor to isolate portions of code and data during execution on a system,
+preventing even privileged code from accessing them. Despite being a relatively
+new technology, \acp{TEE} are getting a lot of traction in recent years,
+especially since the release of Intel \ac{SGX} in 2015~\cite{sgx} that made this
+technology available in commodity x86 processors. Nowadays, \acp{TEE} are more
+popular in the context of cloud computing where physical resources are shared
+among multiple tenants and strong workload isolation is needed. Besides,
+\acp{TEE} can shield data even from the infrastructure provider, which allows
+moving applications to the cloud while still retaining the privacy of user data,
+which is crucial for highly sensitive tasks. This paradigm is known as
+\emph{confidential computing}, and it is the main focus of recent architectures
+like AMD \sevsnp{}~\cite{AmdSevSnpWhitepaper} and Intel
+\ac{TDX}~\cite{intelTdxWhitepaper}, which became available in 2021 and 2023,
+respectively. \acp{TEE} can provide additional security guarantees to existing
+applications and enable novel use cases and protocols that were not possible
+before~\cite{caseConfidentialComputing}.
+
+However, integrating \acp{TEE} into distributed applications poses several
+technical and operational challenges. Indeed, running an application inside a
+\ac{TEE} requires careful redesign and some code changes to isolate the
+sensitive code and data that need to be protected. Even though recent \acp{TEE}
+such as AMD \sevsnp{} and Intel \ac{TDX} can run unmodified binaries, developers
+might still need to make some adjustments to avoid using resources that may
+still be influenced by attackers, either directly or indirectly. Besides, there
+must be a mechanism in place to actually \emph{verify} that the application is
+running in such an isolated environment without being compromised, so that users
+can \emph{trust} that any data exchanged with the application will be not
+accessible by unauthorized parties. This process is called \emph{remote
+attestation}
+and, while it is a feature offered by all \acp{TEE}, it requires some
+development effort and expertise to implement it correctly. Remote attestation
+can also be mediated by third party services or even cloud providers, though
+this requires an in-depth analysis of the threat model and the trust
+relationships between different entities.
+
+In this dissertation, we advance the state of the art in \ac{TEE} research on
+two different dimensions: First, we demonstrate how integrating trusted
+computing technologies into common protocols and applications can provide
+several advantages in terms of security, and in some cases even increased
+efficiency and scalability compared to traditional appraches. To do so, we
+showcase two novel use cases in the context of distributed \ac{IoT} and \ac{V2X}
+settings. Second, we uncover some operational challenges and limitations that
+should be taken into account when using \acp{TEE} in practice. In particular, we
+discuss how getting a stable notion of time inside a \ac{TEE} is a non-trivial
+task, and we shed some light on trust relationships between tenants and cloud
+providers when deploying confidential computing solutions to public clouds.

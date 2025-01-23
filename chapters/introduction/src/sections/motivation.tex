@@ -1,0 +1,39 @@
+\section{Motivation and Contributions}
+\label{thesis:intro-motivation}
+
+Recent trends in cloud computing shifted the paradigm from running workloads on
+local premises to shared infrastructures where multiple tenants share the same
+physical resources for higher scalability and lower costs. In addition, with the
+\acl{IoT} and edge computing, some trusted services need to be offloaded to
+devices that may be in control of a malicious user, like a car or a smartphone.
+Here, \acp{TEE} can play an important role to isolate sensitive workloads even
+on compromised nodes, and indeed this technology is becoming more and more
+ubiquitous in many different fields and use cases. Compared to other approaches
+such as \ac{FHE}~\cite{acar2018fhe} and \ac{MPC}~\cite{lindell2020mpc}, which
+are active areas of research but do not still have many real-world applications,
+\acp{TEE} are a more accessible solution that can be integrated into existing
+workloads with relatively low effort and performance overhead.
+
+However, there are some operational aspects that should be considered when using
+\acp{TEE}, such as how to securely provision and attest workloads, how to
+protect and authenticate communication between different services, and how to
+deal with peripherals such as sensors and actuators. Besides, there are
+differences between running an application on a local, closed system and running
+it within a \ac{TEE} on a third-party infrastructure such as a public cloud. For
+example, applications that rely on system resources, such as a clock, may become
+vulnerable to attacks if running on a shared system, because a privileged
+adversary can control these resources and may thus influence the behavior of the
+application. Therefore, moving workloads inside \acp{TEE} requires careful study
+and, possibly, some application-level changes. This dissertation delves deeper
+into these challenges, presenting solutions to securely integrating \acp{TEE}
+into new use cases and acknowledging limitations of this technology.
+
+%Note that we focus on \emph{operational} aspects of \acp{TEE}, i.e., how to use
+%them in the ``correct'' way as they are designed to, and how to simplify
+%operations such as provisioning and remote attestation.
+
+Below, we describe the contributions of this Ph.D. trajectory. All the code
+developed during our work has been open-sourced for further research and
+reproducibility of results. This involves proof of concepts, frameworks,
+prototypes and tools. For each contribution summarized below, we link to the
+public codebase (if any).

@@ -1,0 +1,60 @@
+With the rise of cloud computing and the \ac{IoT}, modern applications have been
+revolutionized from monolithical units running on local premises to a multitude
+of smaller, interconnected services deployed on shared infrastructures used by
+multiple tenants. Sharing resources among multiple applications improves
+scalability and efficiency, reducing costs at the same time. However, it also
+poses novel security challenges compared to traditional systems.
+
+Protecting the confidentiality, integrity and authenticity of data and
+computations is paramount to ensure the correct operation of an application.
+While there already exist established techniques to protect data at rest and in
+transit, protecting data while in use is still an open research area. \acp{TEE}
+tackle this problem by relying on hardware-based mechanisms to isolate code and
+data during execution, leveraging extensions to the underlying computing
+architecture to provide strong isolation and access control both in the main
+processor and in memory. Code and data running inside a \ac{TEE} are then
+shielded from the rest of the system, and even privileged software such as the
+hypervisor is not allowed to access the secure environment, thereby
+significantly reducing the overall attack surface.
+
+In this Ph.D.\ dissertation, we analyze \acp{TEE} from a practical standpoint,
+focusing on how to securely and effectively integrate them into novel or
+existing applications and protocols, taking into account possible shortcomings
+and limitations of this technology. First, we propose a framework to facilitate
+the development and management of distributed applications in shared,
+heterogeneous infrastructures. To do so, we employ process-based \acp{TEE} such
+as Intel \ac{SGX} and Sancus to minimize the attack surface, leveraging secure
+I/O capabilities to guarantee strong end-to-end integrity of application data.
+To showcase the effectiveness of our work, we develop and evaluate a prototype
+based on a smart home system.
+
+As a second step, we study recent architectures such as AMD \sevsnp{} and Intel
+\ac{TDX}, which allow running fully-fledged virtual machines inside a \ac{TEE}.
+While this significantly reduces the development effort, it also causes an
+increased attack surface and additional operational complexity, since a virtual
+machine comprises several software components that are executed in sequence
+during boot. Thus, it is essential to verify each stage of the boot process to
+ensure that the virtual machine is set up correctly. However, our findings
+reveal that, in current cloud settings, users have limited knowledge about the
+software executing within the \ac{TEE}, since cloud providers have significant
+control over the boot process of virtual machines and could potentially access
+sensitive user data stored inside the \ac{TEE}. Therefore, it is essential to
+clarify trust relationships between cloud providers and customers when using
+\acp{TEE} in the cloud.
+
+Third, we investigate the interactions between an application running within a
+\ac{TEE} and the underlying untrusted environment. In particular, we examine the
+problem of getting a stable and reliable notion of time inside a \ac{TEE},
+assessing the capabilities of various architectures to provide a secure time
+source and evaluating common use cases and applications that rely on time. Then,
+we use this knowledge to propose a novel revocation scheme in the context of
+\ac{V2X} credential management, which relies on \acp{TEE} embedded inside
+vehicles. Our formal verification work shows that our scheme gives a guaranteed
+upper bound on revocation time, and our evaluation highlights the efficiency and
+scalability of our solution.
+
+In summary, this dissertation shows how \acp{TEE} can be utilized to enhance the
+security of existing applications and design novel solutions that can provide
+additional benefits compared to traditional approaches. Furthermore, we also
+raise the attention to non-obvious practical challenges that arise when
+deploying \ac{TEE} workloads to untrusted infrastructures such as public clouds.

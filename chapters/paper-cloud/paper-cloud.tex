@@ -1,0 +1,36 @@
+% !TeX root = ../../thesis.tex
+\chapter{\papercloudtitle}
+\label{ch:cloud}
+
+\acresetall
+
+This chapter was previously published as:
+
+\begin{formal}
+    \papercloudrefr{}
+\end{formal}
+
+\input{chapters/paper-cloud/preamble.tex}
+
+\makeatletter
+\def\input@path{{chapters/paper-cloud/src/}}
+\makeatother
+
+\graphicspath{{chapters/paper-cloud/src/}}
+
+\acresetall
+
+\input{chapters/introduction.tex}
+\input{chapters/background.tex}
+\input{chapters/problem-statement.tex}
+\input{chapters/system-model.tex}
+\input{chapters/scenario.tex}
+\input{chapters/cloud.tex}
+\input{chapters/conclusion.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Keep the following \cleardoublepage at the end of this file, 
+% otherwise \includeonly includes empty pages.
+\cleardoublepage
+
+% vim: tw=70 nocindent expandtab foldmethod=marker foldmarker={{{}{,}{}}}

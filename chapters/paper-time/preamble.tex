@@ -1,0 +1,49 @@
+\section*{Preamble}
+
+In the previous chapter, we have seen that \acsp{TEE} present some operational
+challenges that need to be properly addressed when deploying workloads on
+untrusted third-party infrastructures such as public clouds. As a follow-up,
+this work highlights a specific and non-obvious limitation of \acs{TEE}
+architectures that, if overlooked, might subvert the security guarantees
+provided by enclaves.
+
+This research is the result of several discussions with Fritz Alder during the
+design of the self-revocation scheme that will be presented in \cref{ch:v2x}. As
+will be more clear later, our design required computing timeouts and other
+operations based on the current time, which initially did not seem to be a
+problem but then, upon closer investigation, we stumbled upon some issues: How
+can we provide a reliable representation of elapsed time to an enclave, and how
+can we synchronize time among a network of enclaves? Indeed, if we look at the
+\acs{TEE} threat model, the infrastructure where enclaves run is untrusted,
+which means that privileged software layers such as the host operating system
+and the hypervisor are assumed to be either malicious or compromised. Hence,
+fetching the time from the untrusted environment is dangerous and should be
+avoided in favor of more reliable sources. However, some \acsp{TEE} do not
+natively provide access to a trusted time source and, even when they do, it is
+difficult to safely provide time values to enclaves without being altered by an
+attacker, thus making such values partially or completely lose their meaning.
+
+Therefore, measuring time inside an enclave is a delicate task that needs to
+take into account factors such as the \acs{TEE} architecture being used, the
+time source from which time is read, and the specific use case considered. By
+contrast, however, the current trend in confidential computing is to move
+existing workloads to \acsp{TEE} with a ``lift-and-shift'' approach, i.e.,
+without making any modifications to application code. This trend has been more
+pronounced in recent years, with the advent of \acs{VM}-based \acsp{TEE} for
+cloud workloads (cf.~\cref{ch:cloud}). Unfortunately, this approach is not
+always a good idea as it might provide a false sense of security to application
+owners: Considering the usage of time, if an application uses timestamps for
+some security-critical operations (e.g., as an entropy source for creating a
+cryptographic key), then an attacker that has control over the time source could
+potentially exploit the application by providing it with carefully-chosen
+values. For instance, most libraries and frameworks for Intel \acs{SGX} rely on
+the untrusted time provided by the operating system, thus applications running
+in \acs{SGX} enclaves are susceptible to this class of attacks by default and
+might need to be redesigned to avoid using insecure time.
+
+Based on this motivation, our publication aims at raising the attention to
+possible issues of \acsp{TEE} that may be overlooked, highlighting that not
+every \acs{TEE} is the same and each architecture might provide different
+capabilities that can influence the threat and attacker model. Thus, when moving
+an application into a \acs{TEE}, it is important to carry out a careful security
+analysis, making design and implementation changes when necessary.

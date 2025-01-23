@@ -1,0 +1,40 @@
+\section{Concluding Remarks}
+\label{thesis:concl-remarks}
+
+Integrating \acp{TEE} into distributed applications requires careful
+consideration of the attacker model and the limitations of this technology.
+Simply deploying a workload inside an enclave or confidential virtual machine,
+in a ``lift-and-shift'' manner, might create a false sense of security where
+users expect that their workload is secure while, in reality, it might still be
+exposed to attacks. Looking at the \ac{TEE} threat model, infrastructure
+providers are considered untrusted entities and, with this in mind, the term
+``confidential computing'' has been adopted in the market to describe workloads
+running inside \acp{TEE}, with the promise that providers \emph{cannot} look at
+or tamper with applications running on their own infrastructure. 
+
+However, our research shows that, in some cases, cloud providers could actually
+break this promise if they wanted to, since they play a significant role in the
+provisioning and attestation of \ac{TEE} workloads. Even though there is a good
+possibility that this problem will be solved in the future, cloud providers can
+still rely on side channels, physical attacks, and potential vulnerabilities in
+the \ac{TEE} implementation to achieve their malicious intent. These attacks can
+be partially mitigated in software, but researchers have demonstrated that some
+of them are still a realistic threat. Thus, it is debatable whether cloud
+providers should really be considered untrusted in the \ac{TEE} threat model, or
+if they should rather be regarded as ``honest-but-curious'' entities that in
+theory have the capabilities to compromise a \ac{TEE}, but in practice will not
+perform active attacks. Yet, it is possible that these attacks might also be
+carried out by remote adversaries who somehow succeeded in taking control of a
+cloud server. Here, users should also trust cloud providers to adopt adequate
+security mechanisms to prevent such compromise from happening.
+
+Even considering their limitations, \acp{TEE} significantly increase security by
+making it much harder for an adversary to compromise the confidentiality and
+integrity of applications. To break into a \ac{TEE} instance, malicious cloud
+providers, co-resident tenants or remote attackers would need to perform
+sophisticated attacks that would require time, effort and expertise to succeed.
+Thus, this technology is an important building block towards making more robust
+systems, coming with relatively low cost and overhead. As \acp{TEE} are being
+used in production environments today, it is important to provide tools and
+support for using this technology correctly, while at the same time raising
+awareness on its challenges and limitations.

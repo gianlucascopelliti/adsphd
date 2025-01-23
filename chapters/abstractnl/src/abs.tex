@@ -1,0 +1,68 @@
+Met de opkomst van cloud computing en het Internet of Things is ook de
+architectuur van moderne applicaties ingrijpend veranderd. Waar deze vroeger
+bestonden uit monolithische programma's die op lokale systemen in eigen beheer
+draaiden, is er nu een duidelijke verschuiving naar een architectuur gebaseerd
+op kleinere, onderling verbonden \emph{services}. Deze worden uitgerold op
+infrastructuur die gedeeld wordt met meerdere gebruikers. Het delen van
+resources met andere applicaties biedt namelijk diverse voordelen, zoals
+verbeterde schaalbaarheid, hogere efficiëntie en lagere kosten. Daartegenover
+staan echter ook nieuwe uitdagingen, met name op het gebied van cybersecurity.
+
+Voor een correcte werking van een applicatie is het essentieel om de
+confidentialiteit, integriteit en authenticiteit van gegevens en programmacode
+te waarborgen. Hoewel er diverse technieken bestaan voor veilige opslag en
+verzending van gegevens, blijft de bescherming van gegevens terwijl ermee
+gerekend wordt een actief onderzoeksdomein. \acp{TEE} trachten dit probleem op
+te lossen door gebruik te maken van hardware-gebaseerde mechanismen. Deze
+mechanismen beschermen zowel de programmacode als de gegevens van een programma
+in uitvoering, of deze nu aanwezig zijn in de CPU of in het geheugen, en
+schermen deze dus af van andere programma's die binnen hetzelfde systeem worden
+uitgevoerd. \acp{TEE} bieden zelfs bescherming tegen geprivilegieerde software,
+zoals de hypervisor of het besturingssysteem, waardoor het risico op
+kwetsbaarheden aanzienlijk wordt verkleind.
+
+In dit proefschrift analyseren we \acp{TEE} vooral vanuit een praktisch
+perspectief en onderzoeken we hoe deze veilig en effectief kunnen worden
+toegepast in zowel bestaande als nieuwe toepassingen, rekening houdend met de
+beperkingen van deze technologie. Allereerst stellen we een kader voor dat de
+ontwikkeling en het beheer van gedistribueerde toepassingen in gedeelde,
+heterogene omgevingen vereenvoudigt. Hiervoor maken we gebruik van
+procesgebaseerde \acp{TEE}, zoals Intel \ac{SGX} en Sancus, die de attack
+surface aanzienlijk verkleinen en veilige I/O mogelijk maken. Dit biedt sterke
+end-to-end integriteitsgaranties. Om de effectiviteit van ons werk te
+demonstreren, ontwikkelen en evalueren we een prototype dat gebaseerd is op een
+smart home systeem.
+
+In een tweede bijdrage bestuderen we meer recente architecturen, zoals AMD
+\sevsnp{} en Intel \ac{TDX}, die het mogelijk maken volledige virtuele machines
+binnen een \ac{TEE} uit te voeren. Hoewel deze technologieën het ontwikkelen van
+toepassingen voor een \ac{TEE} vereenvoudigen, vergroten ze zowel de attack
+surface als de operationele complexiteit. Een virtuele machine bestaat immers
+uit meerdere softwarecomponenten die tijdens het opstartproces worden uitgevoerd
+en het is essentieel is om elke fase van dit proces zorgvuldig te verifiëren.
+Onze bevindingen tonen echter aan dat gebruikers in huidige cloudomgevingen
+beperkte kennis hebben van deze software. Bovendien hebben cloudproviders vaak
+aanzienlijke controle over hoe virtuele machines worden opgestart en kunnen ze
+mogelijk zelfs toegang krijgen tot gevoelige gebruikersgegevens die door de
+\ac{TEE} worden beschermd. Het is daarom van cruciaal belang om de
+vertrouwensrelatie tussen cloudproviders en klanten te duidelijk te stellen bij
+het gebruik van \acp{TEE} in de cloud.
+
+Als derde bijdrage onderzoeken we de interacties tussen een applicatie die
+binnen een \ac{TEE} wordt uitgevoerd en het onderliggende, mogelijk
+gecompromitteerde systeem. We bestuderen in het bijzonder hoe een stabiel en
+betrouwbaar tijdsbegrip binnen een \ac{TEE} kan worden gerealiseerd. Daarbij
+beoordelen we verschillende oplossingen en bespreken we veelvoorkomende
+toepassingen die afhankelijk zijn van tijd voor een correcte werking. Op basis
+van deze analyse ontwikkelen we een innovatieve methode voor de revocatie van
+digitale certificaten in \ac{V2X}-toepassingen, waarbij we \acp{TEE} gebruiken
+in de voertuigen. We tonen formeel aan dat ons voorstel een bovengrens voor de
+revocatietijd garandeert. Onze evaluatie bevestigt bovendien de efficiëntie en
+schaalbaarheid van deze aanpak.
+
+Samengevat, dit proefschrift toont aan hoe \acp{TEE} kunnen worden gebruikt om
+enerzijds de beveiliging van bestaande applicaties te verbeteren en anderzijds
+om nieuwe, innovatieve oplossingen te ontwikkelen die bijkomende voordelen
+bieden in vergelijking met de meer traditionele oplossingen. Daarnaast hebben we
+ook aandacht voor de praktische uitdagingen die ontstaan bij het implementeren
+van \ac{TEE}-toepassingen in minder veilige omgevingen zoals publieke clouds.

@@ -1,0 +1,63 @@
+%* shared *%
+% Uncomment to make the paper "submission-ready"
+\newcommand*{\SUBMISSION}{}%
+\ifdefined\SUBMISSION
+\usepackage[disable]{todonotes}
+\else
+\usepackage[textsize=footnotesize]{todonotes}
+\presetkeys{todonotes}{fancyline}{}
+\setlength{\marginparwidth}{1.3cm}
+\setlength{\marginparsep}{3pt}
+\fi
+
+\usepackage[printonlyused]{acronym}
+\usepackage{subcaption}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage[capitalize]{cleveref}
+\usepackage{paralist}
+\usepackage{fontawesome}
+\usepackage{xspace}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+%\usepackage{enumerate} % clashes with enumitem
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{crossreftools}
+\usepackage[all]{nowidow}
+ 
+%* added for fixing layout *%
+\usepackage{rotating}
+
+%* authentic execution *%
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{listings-rust}
+\usepackage{listings-yaml}
+\usepackage{endnotes}
+\usepackage[english]{babel}
+\usepackage{microtype}
+\usepackage{bold-extra}
+\usepackage{xstring}
+\usepackage{color, colortbl}
+\usepackage[english=american,babel=false]{csquotes}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{tikz}
+\usepackage[rightcaption]{sidecap}
+
+%* v2x *%
+\usepackage{fix-cm} % not needed if not using Computer Modern
+\usepackage[OMLmathsfit]{isomath}
+
+%* time *%
+\usepackage{multirow}
+%\usepackage{wasysym} conflict
+\usepackage{pifont}
+\usepackage{gensymb}
+
+%* cloud *%

@@ -1,4 +1,3 @@
-chapters/*/Makefile
 chapters/*/*.aux
 chapters/*/*.log
 defs.tex
@@ -35,3 +34,8 @@ s
 *.blg
 *.tgz
 VERSION
+*.fls
+*.fdb_latexmk
+
+thesis.pdf
+thesis.synctex*

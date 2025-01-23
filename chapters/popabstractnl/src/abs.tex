@@ -1,0 +1,31 @@
+Moderne computertoepassingen bestaan uit onderling verbonden \emph{services} die
+worden uitgerold op computers die gedeeld worden door meerdere gebruikers, zoals
+in de cloud. Door computers op deze manier te delen, kan het gebruik
+geoptimaliseerd en de kosten verlaagd worden. Dit model vereist echter robuuste
+beveiligingsoplossingen om vertrouwelijke gegevens te beschermen. Zogeheten
+\acp{TEE} beloven een oplossing door gebruik te maken speciale hardware voor
+sterke veiligheidsgaranties, zelfs wanneer gevoelige gegevens zich in het
+geheugen of de processor bevinden. \acp{TEE} schermen programma's namelijk af
+van de rest van het systeem terwijl ze worden uitgevoerd. Zelfs systeemsoftware,
+zoals de hypervisor of het besturingssysteem, heeft geen toegang tot de
+beveiligde omgeving. Hierdoor worden de mogelijkheden om de beveiliging te
+omzeilen aanzienlijk beperkt. Deze aanpak wordt sinds kort omschreven als
+\emph{confidential computing}.
+
+In dit proefschrift analyseren we \acp{TEE} vooral vanuit een praktisch
+perspectief. We onderzoeken hoe \acp{TEE} gebruikt kunnen worden in zowel
+bestaande als nieuwe toepassingen. We bestuderen twee scenario's waarbij
+\acp{TEE} kunnen worden ingezet om de beveiliging van het systeem te verbeteren:
+smart homes en certificatenbeheer bij \ac{V2X}-toepassingen. Daarnaast bekijken
+we of deze technologie, naast veiligheid, ook andere voordelen kan bieden, zoals
+verbeterde efficiëntie en schaalbaarheid. We besteden ook aandacht aan de
+praktische uitdagingen van deze technologie: we onderzoeken namelijk hoe een
+applicatie die binnen een \ac{TEE} draait, interageert met het niet-beschermde
+deel van het systeem. We tonen aan hoe ``tijd'' binnen een \ac{TEE}
+gemanipuleerd kan worden om de integriteit van applicaties te ondermijnen.
+Verder analyseren we ook de vertrouwensrelatie tussen de klant van een
+cloud-\ac{TEE} en de cloudprovider, en bespreken we tekortkomingen van het
+huidige beveiliginsmodel van \acp{TEE}. Deze technologie heeft het potentieel
+een hoeksteen te worden voor de beveiliging van moderne toepassingen. Het
+gebruik ervan vereist echter zorgvuldige keuzes van zowel ontwikkelaars als
+beheerders, evenals passende ondersteuning van cloudproviders.

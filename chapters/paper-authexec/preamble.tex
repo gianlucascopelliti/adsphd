@@ -1,0 +1,62 @@
+\section*{Preamble}
+
+This work is the continuation of a workshop paper presented at the STM workshop
+in 2017, with title \emph{``Authentic Execution of Distributed Event-Driven
+Applications with a Small TCB''} and Job Noorman as leading
+author~\cite{noorman:authentic-execution}. Two years later, during the academic
+year 2019-2020, I had the opportunity to pursue my master's thesis at KU Leuven
+and work on this project under the supervision of Fritz Alder, Jan Tobias
+M\"{u}hlberg and Frank Piessens. The thesis was titled \emph{``Securing Smart
+Environments with Authentic Execution''}~\cite{scopelliti2020thesis}. When my
+Ph.D. trajectory began, we decided to further develop this project in
+collaboration with Sepideh Pouyanrad. The result of this work is an article
+published in 2023 in the TOPS journal and reported in this chapter.
+
+The core idea of this work is to provide a framework to securely instantiate
+distributed applications running within \acsp{TEE}, with a strong focus on the
+integrity and authenticity of data and computations. In particular, an important
+objective is reducing the attack surface as much as possible, allowing each
+individual component to be reviewed and audited such that a verifier could not
+only attest that the application is running the expected code, but also (and
+more importantly) that each output produced by the application could be
+\emph{explained} by its source code, along with the provided inputs. Clearly,
+such a property is only possible when the software stack, often referred to as
+\ac{TCB}, is small enough to be manually reviewed and possibly formally
+verified. Isolating small components from a bigger software stack is one of the
+main goals of early \acs{TEE} designs like Intel \acs{SGX} and Sancus, and
+indeed we leverage them in this work. Recently, however, the trend has started
+to take the opposite direction, where huge pieces of code (e.g., entire virtual
+machines) are moved inside the \ac{TCB} with a ``lift-and-shift'' approach, as
+we will discuss in \cref{ch:cloud}. Yet, solutions such as the one presented in
+this chapter may still be relevant for many use cases, especially cyber-physical
+systems like smart homes and precision agriculture, both of which have been
+explored in our work.
+
+The paper presented at STM 2017 focused on developing the main design of the
+framework, which we used to call \emph{``authentic execution''}. Implementation
+and evaluation were based on Sancus and supported its secure I/O feature.
+However, the number of use cases that we could support was pretty limited, as
+Sancus microcontrollers are highly constrained devices that cannot perform
+complex operations. Thus, the main focus of my master's thesis was to extend the
+implementation to Intel \acs{SGX} in order to support a wider variety of use
+cases. Subsequently, the work done during this Ph.D.\ brought about additional
+improvements such as a revised design for secure I/O, support for ARM TrustZone
+and software updates, and an end-to-end evaluation based on a smart home
+application.
+
+Despite being only a research prototype, the authentic execution framework has
+become bigger and bigger over the years, and it now consists of thousands of
+lines of code spread across thirty repositories, all of which open
+source\footnote{\url{https://github.com/AuthenticExecution}}. Some of our
+changes have also been integrated into the Sancus
+codebase\footnote{\url{https://github.com/sancus-tee}}. In spite of this large
+number of repositories and lines of code, significant effort was made to
+simplify the development, deployment and testing of workflows by relying on a
+high level of automation via scripts, Docker containers, and \ac{CI} pipelines.
+As a result, our framework is accessible to all users who are interested in
+experimenting with \acsp{TEE} without requiring strong programming skills or a
+security background. Apart from the publications mentioned above, our work was
+also presented at FOSDEM 2021 and
+CCS'21~\cite{authExecFosdem,scopelliti2021poster}. We also used our framework to
+evaluate a scenario for secure sensing in supply
+chains~\cite{pennekamp2024securing}.

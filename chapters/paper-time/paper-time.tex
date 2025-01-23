@@ -1,0 +1,30 @@
+% !TeX root = ../../thesis.tex
+\chapter{\papertimetitle}
+\label{ch:time}
+
+\acresetall
+
+This chapter was previously published as:
+
+\begin{formal}
+    \papertimerefr{}
+\end{formal}
+
+\input{chapters/paper-time/preamble.tex}
+
+\makeatletter
+\def\input@path{{chapters/paper-time/src/}}
+\makeatother
+
+\graphicspath{{chapters/paper-time/src/}}
+
+\acresetall
+
+\input{paper.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Keep the following \cleardoublepage at the end of this file, 
+% otherwise \includeonly includes empty pages.
+\cleardoublepage
+
+% vim: tw=70 nocindent expandtab foldmethod=marker foldmarker={{{}{,}{}}}

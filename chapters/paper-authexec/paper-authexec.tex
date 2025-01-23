@@ -1,0 +1,37 @@
+% !TeX root = ../../thesis.tex
+\chapter{\paperauthexectitle}
+\label{ch:authexec}
+
+\acresetall
+
+This chapter was previously published as:
+
+\begin{formal}
+    \paperauthexecrefr{}
+\end{formal}
+
+\input{chapters/paper-authexec/preamble.tex}
+
+\makeatletter
+\def\input@path{{chapters/paper-authexec/src/}}
+\makeatother
+
+\graphicspath{{chapters/paper-authexec/src/}}
+
+\acresetall
+
+\input{introduction.tex}
+\input{system-model.tex}
+\input{authentic-execution.tex}
+\input{implementation.tex}
+\input{evaluation.tex}
+\input{discussion.tex}
+\input{related.tex}
+\input{conclusions.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Keep the following \cleardoublepage at the end of this file, 
+% otherwise \includeonly includes empty pages.
+\cleardoublepage
+
+% vim: tw=70 nocindent expandtab foldmethod=marker foldmarker={{{}{,}{}}}

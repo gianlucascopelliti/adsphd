@@ -1,0 +1,60 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="571px" height="222px" viewBox="-0.5 -0.5 571 222" content="&lt;mxfile&gt;&lt;diagram id=&quot;at3iYnYGOxgWTrFWqaeD&quot; name=&quot;Page-1&quot;&gt;3Zhdb5swFIZ/TaT2JrJx+Mhlm3bbzaRJ1bTt0gInseZgZExK9utnwAaMIU0rmmnlJviNfbCfc459YIE2h/KzwNn+K08IW3ggKRfoYeF50Asi9VMpp0YJ17ARdoImulMnPNE/RItAqwVNSG51lJwzSTNbjHmaklhaGhaCP9vdtpzZT83wjjjCU4yZq/6gidw3auSDTv9C6G5vngyB/ueATWct5Huc8OeehB4XaCM4l83dodwQVsEzXJpxnyb+bScmSCovGeD5zYgjZoVe3PdUiiKXJFHyXZYxGmNJearnK08GguBFmpDKDlyg+yMRUvVkd4zuUqVJnikVi1h7b6Va+lGqJykn5wtbCip8CD8QKU6qix4Qam46cKBpP3duaNnuey5oRaxdv2tNd3TUjQY0AStyYD2mMcNHMgOcLWVswxkXtQEEQIRV1Cidp7Knb+tL6bkU/DexRvhhPWIGzKvA5qysO5xhNMIZojk4rx3ON/C2ymdBsFSwAZnArlYsHTYpT8kAsJaw9gcjWznipgNNksryfefNmfhCOODrjfD1R/jOgRdBF69X48V1v22Rxje3H4dtdE22nsN2Auf5HaLFM9gWAoDXMHzNtuA9hMFs28IaLs2JYegGgUvXC5e+y9dfz8AXOXwdsiRN7qpDXrXULpHnNFarJyWVPzXs6v6XDrjq/qHsN06moc7B089+ox5TAdDtblzdMgObCZHEqSEGmNWkeSFiYmelxGJHZD+aXHf0WI8FstEEYeroPtrTGKOvn/CNUzXB1tvItxMJrVq3GiPNAvS4fpkxMLUCg5xcO6aadTum6oBol35ZjLg1zYUxYjwO+x6HL7jbRBboR9Yy9M8G1xtjxBuJkYmUvU6MDAsFf1hnXRohTrBFA0Mzxkfgnn/+bc0iLw51eVGSuBgtev/XQxCtrnkIhi8nYFyIY3v6nc9GsPStHXi27befRk1t/6/SyJuqt1+90SLbUOvjF9JI4cenXres6pCfyfvhcwLrPVPdNBbfnKPuq9YNmq0mjVUkEHHVhERDD/tuQgbvlY8j71OrjwQTjbw+vRdMs5Ge29zs2n5Qwm8BRgC7JTyorykHzEBt5Qd2CI58PIFn9rhXUFPN7htWk/7dl0D0+Bc=&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <rect x="0" y="0" width="220" height="220" rx="8.8" ry="8.8" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="109.5" y="17.5">
+                Untrusted Application
+            </text>
+        </g>
+        <rect x="390" y="60" width="180" height="130" rx="5.2" ry="5.2" fill="#008a00" stroke="#005700" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="479.5" y="77.5">
+                Enclave
+            </text>
+        </g>
+        <rect x="40" y="50" width="150" height="30" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">
+            <text x="41.5" y="69.5">
+                (1) create enclave
+            </text>
+        </g>
+        <rect x="40" y="110" width="150" height="30" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">
+            <text x="41.5" y="129.5">
+                (2) call func()
+            </text>
+        </g>
+        <rect x="421.25" y="96" width="127.5" height="59" rx="8.85" ry="8.85" fill="#60a917" stroke="#2d7600" pointer-events="all"/>
+        <g fill="#ffffff" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="484.5" y="130">
+                func()
+            </text>
+        </g>
+        <path d="M 190 110 L 414.88 110.73" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 420.13 110.75 L 413.12 114.22 L 414.88 110.73 L 413.14 107.22 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 421.25 140.25 L 196.37 140.01" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 191.12 140 L 198.12 136.51 L 196.37 140.01 L 198.11 143.51 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="40" y="170" width="150" height="30" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" font-size="12px">
+            <text x="41.5" y="189.5">
+                (5) resume execution
+            </text>
+        </g>
+        <path d="M 190 60 Q 360 -10 474.5 56.79" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 479.03 59.44 L 471.22 58.93 L 474.5 56.79 L 474.75 52.89 Z" fill="rgb(0, 0, 0)" stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="290" y="80" width="60" height="30" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="319.5" y="99.5">
+                (3)
+            </text>
+        </g>
+        <rect x="290" y="150" width="60" height="30" fill="none" stroke="none" pointer-events="all"/>
+        <g fill="rgb(0, 0, 0)" font-family="Helvetica" text-anchor="middle" font-size="12px">
+            <text x="319.5" y="169.5">
+                (4)
+            </text>
+        </g>
+        <rect x="386" y="100" width="10" height="50" rx="1.5" ry="1.5" fill="#f0a30a" stroke="none" pointer-events="all"/>
+    </g>
+</svg>

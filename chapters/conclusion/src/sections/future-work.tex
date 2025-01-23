@@ -1,0 +1,195 @@
+\section{Discussion and Future Work}
+\label{thesis:concl-future}
+
+\acp{TEE} are maturing and becoming a cornerstone of modern applications. In
+this dissertation, we illustrated how they can be securely and efficiently
+integrated into the design of applications and protocols, but we also
+highlighted some operational challenges that application developers and
+administrators should take into consideration. In this section, we build upon
+our contributions to reflect about possible directions for future work, focusing
+more on general aspects of integrating \acp{TEE} into applications rather than
+discussing specific improvements of our previous work.
+
+\paragraph{Secure I/O on commercial TEEs}
+
+Almost all applications require interaction with the external world to function
+properly, such as end-user devices, sensors and actuators for cyber-physical
+systems, and co-processors and accelerators for dedicated workloads like machine
+learning. Current \acp{TEE} protect applications running in the main CPU, while
+encryption in transit can protect data that goes in and out of the secure
+environment. When the computation moves to another device, however, additional
+isolation mechanisms are necessary.
+
+In \cref{ch:authexec}, we described how to perform secure I/O on Sancus
+microcontrollers to protect the communication between an enclave and an I/O
+device such as a sensor. We achieved this by leveraging memory-mapped I/O to map
+a device's memory to protected enclave memory and configuring exclusive access
+of such memory to a corresponding \emph{driver} enclave
+(cf.~\cref{impl:sancus}). While this solution was good enough for our small use
+case, it may not be suitable for more complex I/O devices whose drivers are
+proprietary and/or consist of a large number of lines of code. Furthermore, most
+commercial \acp{TEE} do not support secure I/O out of the box, making our
+approach unusable. A solution to this problem could be relying on proxy devices
+that sit between an enclave and a I/O peripheral to encrypt and authenticate all
+communication, as proposed in earlier
+work~\cite{BASTION-SGX,SGX-USB,eskandarian2019fidelius}. Other approaches to
+securely connect ``legacy'' devices to a \ac{TEE} would require hardware changes
+and a careful design~\cite{bertschi2024devlore}. However, these solutions do not
+protect the I/O devices themselves, which can still be malicious or contain
+vulnerabilities. For devices that can directly access protected \ac{TEE} memory,
+e.g., via \ac{DMA} operations, this poses a non-negligible risk.
+
+A significant step towards fully secure I/O would be running a \ac{TEE} in I/O
+devices and accelerators as well, which would make every computation secure
+(i.e., confidentiality- and integrity-protected) and attestable in every step.
+This is the approach of the Nvidia Hopper architecture~\cite{nvidiaCC}, which
+allows running isolated GPU workloads that can be interconnected with
+\acs{VM}-based \acp{TEE} such as Intel \ac{TDX} and AMD \sevsnp. Today, the
+Hopper GPU is available on Microsoft Azure in preview mode and is already being
+used for confidential computing applications such as confidential
+AI~\cite{edgelessContinuumAI}. Another ongoing line of work is defining
+standards to securely attach a \ac{TEE}-aware device to a secure virtual
+machine, such as the \ac{TDISP}~\cite{tdispSpec}. The \ac{TDISP} standard is
+currently being implemented by Intel and
+AMD~\cite{intelTdxConnect,AmdSevTioWhitepaper} and there are academic solutions
+for ARM \ac{CCA} as well~\cite{sridhara2024acai}.
+
+While the solutions mentioned above seem promising, they also make management
+and attestation of \ac{TEE} workloads more complex. In principle, one could
+apply a similar approach as we proposed in \cref{ch:authexec}, where each
+software module can run either in the main CPU (e.g., in enclaves or
+confidential virtual machines), or in external devices such as a GPU. Each
+module and the underlying hardware should then be attested and communication
+between modules properly protected. Future work needs to investigate mechanisms
+to streamline this process while keeping the attack surface as small as
+possible.
+
+\paragraph{Increase transparency in TEE software}
+
+The security guarantees of \acp{TEE} depend on several software components, such
+as the \ac{TEE} firmware and microcode, libraries and \acp{SDK}, attestation
+software such as the \ac{QE} in Intel \ac{SGX}, and of course the code that runs
+inside the \ac{TEE}. All of these components are part of the \ac{TCB}, and a
+vulnerability in any part of the code might compromise the isolation guarantees
+provided by the \ac{TEE}. Ideally, the \ac{TCB} should be as small as possible
+and every software component should be verifiable to ensure that no such
+vulnerabilities exist. In reality, however, the code running in a \ac{TEE} is
+often large enough to make formal verification techniques unsuitable or only
+usable on small parts of the codebase. The problem is exacerbated on
+\acs{VM}-based \acp{TEE}, since their workloads consist of fully-fledged virtual
+machines composed of several software layers, even though there are some
+solutions to dramatically reduce the size of \ac{CVM} workloads, such as
+Gramine-TDX~\cite{kuvaiskii2024gramine} and Mushroom~\cite{mushroomTee}. It is
+essential that developers and administrators consider \ac{TCB} reduction as a
+primary objective when designing a confidential application.
+
+Furthermore, as revealed in \cref{ch:cloud}, attesting \acs{VM}-based \acp{TEE}
+is a complex process and, when using confidential computing solutions in the
+cloud, cloud customers have limited capabilities as some software components are
+closed-source and/or directly managed by the cloud providers, making
+verification harder or even impossible to achieve independently. Without proper
+attestation, it is hard to tell whether the customer's data is really protected
+or not, and relying on the cloud provider for attestation defeats the purpose of
+using \acp{TEE} in the cloud in the first place. To make \ac{TEE} workloads
+really \emph{trustworthy}, therefore, it is necessary that a verifier is capable
+at least to independently verify the authenticity of all the code running inside
+the \ac{TEE}. As discussed in \cref{section:cloud}, none of the major cloud
+providers offers a complete solution to achieve a transparent verifiability of
+the \acs{CVM} boot process, although some improvements have been made in
+the past months (cf.~preamble of \cref{ch:cloud}). Future work must prioritize
+this issue, focusing on open-source code and reproducible builds to increase
+transparency and trustworthiness. Secure I/O solutions, as discussed above,
+should also be involved in this process.
+
+\paragraph{Overcome limitations of TEEs}
+
+In \cref{ch:time}, we focused on the interface between an application running
+inside a \ac{TEE} and the untrusted world, pointing out that some use cases
+require careful design choices, especially when dealing with (untrusted) system
+resources such as a clock. This problem becomes especially dangerous when
+porting existing applications to \acp{TEE} with a ``lift-and-shift'' approach,
+i.e., without any code changes. Since traditional applications have been
+designed with a different threat model in mind, where the host is assumed to be
+trusted (cf.~\cref{thesis:intro-concepts}), they might rely on resources that
+might be controlled by privileged attackers. For example, the Sigy attack
+exploits malicious signals to compromise unaware \ac{SGX}
+applications~\cite{sridhara2024sigy}. Therefore, such issues should be
+acknowledged by developers when designing a \ac{TEE} application, avoiding
+lift-and-shift when possible.
+
+Furthermore, there are some inherent limitations of \acp{TEE} that should be
+taken into account. Other solutions for protecting data in use, such as
+\ac{FHE}~\cite{acar2018fhe} and \ac{MPC}~\cite{lindell2020mpc}, rely on advanced
+mathematics and statistics principles to transform the data before being used,
+such that the computations are performed on the transformed data rather than the
+original plaintext. With \acp{TEE}, instead, hardware-based isolation mechanisms
+and encryption prevent unauthorized access, but the data is still processed in
+the clear within the main processor. This puts significant responsibilities and
+trust on \ac{TEE} manufacturers, since vulnerabilities in a \ac{TEE} might
+compromise the security of applications and leak sensitive data. Unfortunately,
+as highlighted in \cref{thesis:intro-threat}, this has already happened several
+times in the past and is likely to happen again in the future. For example,
+researchers at Google analyzed the implementation of AMD \sevsnp{} and Intel
+\ac{TDX}, finding several issues that resulted in more than 30
+\acp{CVE}~\cite{securingUnseen}. Besides, since the data is processed in the
+clear, attackers might leverage techniques such as side-channel and physical
+attacks to bypass the isolation provided by a \ac{TEE} and exfiltrate data.
+Although this kind of attacks is an orthogonal problem that is partially out of
+scope of the \ac{TEE} threat model (even though certain \acp{TEE} offer defense
+mechanisms against some side channels), it must be taken into account when
+deploying a confidential application in the real world. To mitigate such
+attacks, as mentioned in \cref{thesis:intro-threat}, developers can rely on
+software-based techniques such as constant-time programming and oblivious
+computation: To this end, a good real-world example is the Signal contact
+discovery service~\cite{signalContactDiscoveryOram}, which uses an \ac{ORAM}
+algorithm to hide access patterns and protect against side-channel
+attacks~\cite{stefanov2018pathoram}.
+
+Research has shown that attacks on \acp{TEE} are a realistic threat and defenses
+can only reduce the risk but cannot completely remove it. As such, future work
+should investigate solutions to minimize the consequences of a successful
+attack. For example, our \ac{V2X} self-revocation scheme proposed in
+\cref{ch:v2x} assumes that the \ac{TC} securely stores all cryptographic
+material and, in case of revocation, makes it unusable for future communication.
+However, if a key leaks from the \ac{TC} due, e.g., to a side-channel attack,
+there is currently no mechanism to revoke such key. Although we explicitly
+clarified that these attacks are out of scope, they would partially invalidate
+the properties that we formally verified
+(cf.~\cref{section:design-verification}). Another interesting case study is
+given by Van Schaik et al., who performed an attack on a blockchain network that
+leverages Intel \ac{SGX} to provide confidentiality to smart contracts via a
+secret seed shared by all enclaves~\cite{schaik2024sgxsok}. The authors were
+able to recover such seed by adding a rogue \ac{SGX} enclave to the network,
+compromising the confidentiality of the entire blockchain. These examples
+demonstrate how important it is to consider \ac{TEE} failures in the design
+phase of a real-world application, e.g., to develop ``failsafe'' mechanisms that
+take effect when such failures occur. In our \ac{V2X} case, a simple solution
+could be adding to our design a fixed lifetime to all certificates, similar to
+the passive revocation scheme~\cite{etsi2022102941}. While most of these
+mechanisms may be application-specific, some concepts could be generalized to
+many use cases, such as credential management systems on the whole.
+
+\paragraph{TEEs in industry standards}
+
+In \cref{ch:v2x}, and in particular in \cref{section:discussion-compatibility},
+we discussed how our self-revocation scheme can be integrated into existing
+\ac{V2X} protocols, and we highlighted how industry standards like
+ETSI~\cite{etsi2022102941} cannot support our scheme out of the box but need
+some adaptations, i.e., to require and make use of a \ac{TC} in vehicles. This
+showcases that, in order to increase adoption of \acp{TEE} and make them a
+mainstream solution, industry standards need to integrate this technology in
+their design. As a matter of fact, some standards do already exist, such as the
+IETF \ac{RATS}~\cite{ietfRats} and \ac{TEEP}~\cite{ietfTeep} architectures, as
+well as some reports like the ETSI NFV SEC 009~\cite{etsiNFVSecurity}. However,
+they discuss \acp{TEE} in a generic way without applying them to real use cases
+yet.
+
+In order to facilitate the integration into standards, research needs to
+demonstrate how \acp{TEE} can fit into modern use cases and which benefits they
+provide compared to traditional solutions. Proposing a novel design is not
+enough, as it needs to be accompanied by an extensive evaluation to demonstrate
+its feasibility, as well as a fair comparison with the state of the art.
+Additionally, formal techniques can be used to give strong arguments about the
+security posture of the new design. In \ac{V2X} credential management systems,
+for example, we noticed a general lack of these fundamentals, both in standards
+and research, although with some exceptions~\cite{whitefield2017formal}.

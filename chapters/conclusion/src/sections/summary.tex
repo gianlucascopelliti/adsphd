@@ -1,0 +1,93 @@
+\section{Summary of Contributions}
+\label{thesis:concl-summary}
+
+The focus of our initial work was on process-based \acp{TEE} such as Intel
+\ac{SGX}, ARM TrustZone and Sancus, which allow to protect small portions of
+code in order to minimize the \ac{TCB}. In \cref{ch:authexec}, we presented a
+framework that allows developers and system administrators to easily develop and
+deploy distributed applications on heterogeneous \acp{TEE}. Our framework
+leverages an event-driven programming model where each individual component,
+called module, can declare input and output endpoints used to exchange messages
+between different modules and implement some custom logic in response of an
+event. This allows developers to focus exclusively on the application logic,
+while the networking, cryptographic operations, \ac{TEE} management and remote
+attestation are automatically managed by the framework itself, greatly reducing
+the development effort. Another important aspect of our framework is securing
+interaction with peripherals thanks to Sancus' secure I/O capability, which
+gives strong integrity and authenticity of device drivers and the data exchanged
+between a module and an I/O driver. Of course, leveraging \acp{TEE} comes with a
+performance overhead; Nevertheless, our evaluation showed that our framework
+does not affect user experience in near real-time applications such as smart
+home systems.
+
+In recent years, the confidential computing market has been shifting from
+process-based to \acs{VM}-based \acp{TEE} such as AMD \sevsnp{} and Intel
+\ac{TDX}. This makes development simpler, because applications can run inside
+such \acp{TEE} unmodified, but at the same time it greatly increases the
+\ac{TCB} and makes management and attestation more challenging. Our contribution
+presented in \cref{ch:cloud} discusses these challenges, with a focus on the
+boot process of a \ac{CVM} and remote attestation. We showed that booting up a
+\ac{CVM} involves several software layers that may be managed by different
+entities, and we proposed a classification of incremental \emph{attestation
+levels} representing the extent of an attestation in proportion to the whole
+boot process. This classification helped us reason about the several steps that
+need to be taken to perform remote attestation correctly (and the tools that can
+be used to achieve it), as well as the security implications of a \emph{partial}
+attestation (i.e., where not all the software components are measured and
+attested). Finally, we assessed confidential computing services in public clouds
+such as \ac{AWS}, Microsoft Azure and \ac{GCP}, highlighting a crucial
+inconsistency between the threat model of \acp{TEE}, where the infrastructure
+provider is considered untrusted, and current cloud offerings, where cloud
+providers still play an important role in the management and attestation of
+\acp{CVM}.
+
+\acp{TEE} isolate code and data of an application from other software in the
+same system, thereby protecting their confidentiality and integrity. However,
+the application still relies on the untrusted environment (e.g., the host
+operating system and the hypervisor) to function properly. Apart from scheduling
+operations, applications might need to access system resources such as a clock.
+This not only affects availability, which is out of scope of the \ac{TEE} threat
+model, but might also lead to confidentiality and integrity breaches depending
+on how these resources are actually used. In \cref{ch:time}, we discussed
+possible issues related to the use of time inside a \ac{TEE}. First, we provided
+a classification of incremental time levels that indicates, for each level, what
+guarantees it gives and which attacks are possible. Then, we used this
+classification to assess each individual \ac{TEE} according to what support for
+trusted time they can provide, and subsequently we identified some common use
+cases where time plays a crucial role, such as rate limiting or credential
+checking. We highlighted that, for such applications, using an insecure time
+source may lead to vulnerabilities that can invalidate the security guarantees
+given by \acp{TEE}, and we recommended that developers should take this issue
+into account when developing \ac{TEE} applications from scratch or moving
+existing workloads to \acp{TEE}.
+
+Finally, \cref{ch:v2x} showcased how \acp{TEE} can be safely integrated into new
+protocols and use cases for strong confidentiality, integrity and authenticity
+guarantees, while at the same time providing additional benefits such as
+increased efficiency and scalability. We demonstrated this in the context of
+\ac{ITS} and \ac{V2X}, where previous research had highlighted the need for a
+secure and efficient revocation mechanism for vehicle credentials. Learning from
+the lessons discussed in \cref{ch:time}, we proposed a novel scheme for
+self-revocation that, unlike previous work, does not rely on a trusted time
+source in \acp{TEE} but leverages a synchronization protocol between \ac{V2X}
+participants based on a logical clock (``epochs''). Compared to related work in
+the field, our revocation scheme is the only one that can provide a
+\emph{guaranteed} upper bound on revocation time, thanks to our formal
+verification work. Furthermore, our evaluation showed that our solution can
+handle \ac{V2X} networks with a large number of vehicles and/or revocations.
+Indeed, \acp{TEE} allow to partially decentralize credential management, moving
+some of the core logic to trusted services running inside vehicles. This allows
+novel protocols to be designed, which may provide several benefits compared to
+the current state of the art.
+
+In summary, we hope that our research has given a deeper understanding on the
+benefits and limitations of \acp{TEE}. Working with this technology is not a
+trivial task and presents several technical and operational challenges.
+Nevertheless, this solution can provide a robust defense-in-depth technique to
+isolate code and data at runtime, reducing the attack surface and the risk of
+compromise with relatively low overhead. Crucially, verifiability via remote
+attestation is paramount to the security of \ac{TEE} applications to ensure that
+isolation mechanisms are correctly in place and the integrity of code and data
+has not been compromised. Unfortunately, however, this is not fully achievable
+with today's cloud offerings, but we expect that future \ac{TEE} solutions will
+make further steps towards real confidential computing.

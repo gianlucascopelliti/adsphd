@@ -1,0 +1,20 @@
+% for adjustwidth environment
+\usepackage[strict]{changepage}
+
+% for formal definitions
+\usepackage{framed}
+
+\newenvironment{formal}{%
+  \def\FrameCommand{%
+    \hspace{1pt}%
+    {\color{kulprimaryblue}\vrule width 2pt}%
+    {\color{kulprimaryblue!7}\vrule width 4pt}%
+    \colorbox{kulprimaryblue!7}%
+  }%
+  \MakeFramed{\advance\hsize-\width\FrameRestore}%
+  \noindent\hspace{-4.55pt}% disable indenting first paragraph
+  \begin{adjustwidth}{}{7pt}%
+}
+{%
+  \vspace{6pt}\end{adjustwidth}\endMakeFramed%
+}

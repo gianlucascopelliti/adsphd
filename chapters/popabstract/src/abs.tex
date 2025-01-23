@@ -1,0 +1,30 @@
+Modern applications consist of several interconnected services deployed on
+shared infrastructures such as public clouds, where physical resources such as
+processor and memory are shared between multiple applications to optimize
+resource usage and reduce costs. With this paradigm, strong isolation techniques
+are needed to preserve the confidentiality and integrity of data and
+computations. \acp{TEE} tackle this problem by relying on hardware extensions to
+the underlying computing architecture to provide strong isolation and access
+control both in the main processor and in memory. Code and data running inside a
+\ac{TEE} are then shielded from the rest of the system, and even privileged
+software such as the hypervisor is not allowed to access the secure environment,
+thereby significantly reducing the overall attack surface. In recent years, the
+community has adopted the term \emph{confidential computing} to define \ac{TEE}
+workloads.
+
+In this Ph.D.\ dissertation, we analyze \acp{TEE} from a practical standpoint,
+focusing on how to securely and effectively integrate them into novel or
+existing applications and protocols. We study two use cases, namely smart homes
+and \ac{V2X} credential management, where \acp{TEE} can be utilized to enhance
+the security posture of the system while providing additional benefits compared
+to traditional approaches, such as increased efficiency and scalability.
+Furthermore, we raise the attention to non-obvious practical challenges of this
+technology: We investigate the interface between an application running in a
+\ac{TEE} and the untrusted world, showing how attackers can manipulate the
+notion of time perceived inside the \ac{TEE} to compromise the integrity of the
+application. Besides, we analyze the trust relationships between customers who
+want to leverage \acp{TEE} in the cloud and their providers, highlighting some
+inconsistencies with the \ac{TEE} threat model. We conclude that this technology
+can become a cornerstone of modern applications, but its integration requires
+careful design choices from developers and administrators, as well as proper
+support from the infrastructure providers.

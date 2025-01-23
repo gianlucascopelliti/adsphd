@@ -1,0 +1,272 @@
+\subsection{Main Contributions}
+
+This dissertation revolves around four main publications that I contributed to
+during my Ph.D. trajectory, either as first or second author. A summary of the
+core concepts of each work and personal contributions is provided below, while
+the full texts are reported in the next chapters. Note that these contributions
+do not follow a chronological order, e.g., date of publication, but rather they
+are ordered to best fit the overall storyline described in this introductory
+chapter.
+
+\paragraph{\paperauthexectitle}
+
+As a first contribution, \cref{ch:authexec} describes a framework to simplify
+the development and management of distributed applications on shared
+infrastructures. This work focuses on process-based \acp{TEE} to keep the
+\ac{TCB} small, and allows developing heterogeneous applications based on Intel
+\ac{SGX}, ARM TrustZone and Sancus. We design an event-driven programming model
+where each service (or \emph{module}) defines a set of inputs and outputs that
+consume or produce \emph{events}, and inputs and outputs of different services
+can be connected together to provide various functionalities. Unlike related
+work such as Open Enclave~\cite{openenclave} and Google
+Asylo~\cite{googleasylo}, our framework automates the deployment and attestation
+of each module and makes sure that each link between an output and an input is
+mutually authenticated with dedicated keys. Besides, we are the first to
+leverage Sancus' secure I/O functionality to also protect the communication
+between a service and a peripheral such as a sensor or an actuator. In this way,
+we achieve a notion of \emph{end-to-end security} with a strong focus on the
+integrity of computations and data. Our framework aims to give a guarantee that,
+if a physical or logical output is observed in the application, then its
+execution can be ``traced back'' to the actual piece of code and sequence of
+events that originated such output, including any potential physical inputs. We
+evaluate our work on a prototype based on a smart home system: Our results show
+that the performance overhead of our solution does not affect user experience
+for near real-time applications, while the effort to develop such a prototype in
+terms of lines of code is very small. 
+
+This work resulted in thousands of lines of code partially written from scratch
+mainly in C/C++, Rust and Python, along with other adaptations to existing
+repositories. Besides, we made extensive use of Docker and \ac{CI} pipelines to
+streamline the development, testing and evaluation of our framework. All code,
+scripts and examples can be found in the AuthenticExecution organization on
+GitHub\footnote{\url{https://github.com/AuthenticExecution}}.
+
+I am the first author of this paper, and my personal contributions involved a
+revised design and re-implementation of the framework based on the earlier
+workshop publication~\cite{noorman:authentic-execution}, as well as the full
+implementation of all the new code except for the ARM TrustZone part that was
+developed in collaboration with Sepideh Pouyanrad. In addition, I was also
+responsible for the complete evaluation of the framework and a substantial part
+of the writing process.
+
+\begin{formal}
+    \paperauthexecrefr{}
+\end{formal}
+
+\paragraph{\papercloudtitle}
+
+\cref{ch:cloud} presents our second contribution which, as opposed to the first,
+focuses on \acs{VM}-based \acp{TEE} as the emerging technology in recent years
+for cloud-based workloads. Indeed, the reduced effort to run applications inside
+\acp{CVM}, coupled with new technologies and protocols to get exclusive access
+to accelerators such as GPUs~\cite{nvidiaCC}, has dramatically increased the
+popularity of \acp{TEE} in the cloud. Nowadays, all the biggest cloud providers
+offer solutions to run confidential workloads on demand by leveraging AMD
+\sevsnp{} and Intel \ac{TDX}, and many companies are now selling their solution
+based on \acp{CVM}, such as confidential Kubernetes clusters or confidential AI
+applications. Our research analyzes this trend and goes into detail on the
+provisioning and attestation process of \acp{CVM}. As mentioned in
+\cref{thesis:intro-cc}, bootstrapping a \ac{CVM} is a staged process involving
+several software layers, but only the very first piece of code (i.e., the guest
+firmware) is measured by the \ac{TEE}. Therefore, in our work we discuss
+existing techniques to extend this chain of measurements, and we propose a
+categorization of \emph{attestation levels} that indicate how much of the
+\ac{CVM} boot process is attested by a verifier, ranging from zero (no
+attestation) to four (the entire boot chain is measured and verified). This
+categorization is then utilized in our evaluation, where we assess the three
+major cloud providers, i.e., \ac{AWS}, Microsoft Azure and \ac{GCP} and we
+assign a score indicating the attestation level that can be achieved on their
+infrastructure. However, we found that cloud providers have some influence on
+the provisioning of a \ac{CVM} and, for example, customers cannot use their own
+guest firmware but are limited to the firmware offered by the cloud provider,
+which may be closed source and thus not verifiable. This raises some questions
+about the trust relationships between cloud providers and their customers since,
+considering the threat model of \acp{TEE}, the infrastructure provider is
+untrusted by design (cf.~\cref{thesis:intro-threat}). Therefore, our evaluation
+considers this scenario and highlights the differences between \emph{nominal}
+attestation level, i.e., what is theoretically attestable in a cloud, and
+\emph{trustworthy} attestation level, i.e., what level is reachable if we assume
+that the cloud provider is malicious. Our results highlight a gap between the
+\ac{TEE} threat model and current cloud offerings. This paper received the
+``Best Paper Award'' at the SysTEX 2024 workshop.
+
+I am the main author of this paper and I carried out the entire work. My
+supervisors Christoph Baumann and Jan Tobias M\"{u}hlberg assisted me during the
+evaluation and contributed to the writing process.
+
+\begin{formal}
+    \papercloudrefr{}
+\end{formal}
+
+\paragraph{\papertimetitle}
+
+As a third contribution of this dissertation, \cref{ch:time} discusses the
+challenges to get a reliable notion of time inside a \ac{TEE}. Indeed, as
+previously mentioned, peripherals such as a clock may be influenced by a
+privileged adversary in the system. In our study, we provide a classification of
+incremental \emph{time levels}, which indicate how an attacker can influence the
+time retrieved within a \ac{TEE}. These levels range from zero, meaning that an
+attacker has full control over the time source and the communication channel, to
+four, meaning that an attacker cannot influence time at all. With this
+classification in mind, we analyze commercial \acp{TEE} and assess the time
+level that each of them can guarantee. For example, in process-based \ac{TEE}
+like Intel \ac{SGX} where the operating system is untrusted by design, system
+calls like \texttt{time()} are obviously insecure because a privileged adversary
+can arbitrarily modify the return value. Yet, our findings show that many
+\ac{SGX} frameworks and libraries provide timing information via the operating
+system, without even giving a warning that the returned values are insecure. In
+contrast, \acs{VM}-based \acp{TEE} give more guarantees on time as it is
+possible to access the \ac{TSC} directly from the CPU to get some indication of
+time passing, but an attacker might still be able to influence the usage of
+time, e.g., by interrupting the execution of a running \ac{VM} right after a
+timestamp is retrieved. In the last part of this research, we analyze several
+use cases that require a notion of time, such as rate limiting and credential
+expiration. For each use case, we determine the minimum time level that
+guarantees the integrity of computations, and we assess whether such use cases
+are acceptable with the guarantees provided by certain \acp{TEE} or if they may
+require additional consideration.
+
+Fritz Alder is the main author of this paper. I mainly contributed to the design
+of the time levels, the evaluation of the various \acp{TEE} based on public
+specifications, and part of the writing.
+
+\begin{formal}
+    \papertimerefr{}
+\end{formal}
+
+\paragraph{\papervtoxtitle}
+
+Finally, our last contribution, presented in \cref{ch:v2x}, takes into account
+the aforementioned time challenges and designs a secure revocation mechanism for
+\ac{V2X} credentials. In \ac{V2X}, vehicles communicate with each other and
+other peers such as pedestrians and traffic lights to exhange information about
+themselves and their surroundings. This information is then used in various
+ways, such as creating dynamic maps or feeding decision algorithms for assisted
+or autonomous driving. To protect such sensitive communication, industry
+standards propose the use of digital signatures to guarantee the integrity and
+the authenticity of messages, coupled with a public key infrastructure to manage
+identities and credentials~\cite{etsi2022102941,brecht2018scms}. Notably,
+\ac{V2X} relies on short-lived \emph{pseudonym credentials} to protect the
+privacy of vehicle users, to make it more challenging for passive observers to
+track them. Besides, misbehavior detection mechanisms are in place to detect
+malicious activity, such that when a misbehaving vehicle is detected its
+credentials are revoked to preserve the safety of the network. However, revoking
+pseudonym credentials is not a trivial task, as vehicles might be associated to
+multiple credentials and therefore traditional mechanisms based of revocation
+lists are inefficient, while solutions based on passive revocation, i.e.,
+letting credentials expire without actively revoking them, present some security
+concerns~\cite{yoshizawa2022v2x_survey}. As such, academic solutions have been
+trying to leverage \acp{TEE} inside vehicles to enhance certificate management
+and make revocation more efficient and scalable. A novel revocation technique
+based on \emph{self-revocation}, proposed by F\"orster et
+al.~\cite{forster2015rewire} and picked up in subsequent
+works~\cite{whitefield2017privacy,desmoulins2019practical,larsen2021daa},
+leverages revocation messages that are sent directly to the revoked vehicle,
+which is asked to delete its credentials. Since credentials are managed by a
+trusted (and attestable) service running in a \ac{TEE}, we can ensure that,
+whenever a revocation message is received by this service, revocation will occur
+as expected. In case these messages are not delivered as intended, perhaps due
+to network interruptions or malicious activity, F\"orster et al.\ propose the
+use of \emph{heartbeats} and timeouts as a way to detect misbehavior and perform
+revocation automatically after a certain time has passed since the last received
+message. However, as we discussed above, managing time in \acp{TEE} is
+problematic and it is not always possible to compute timeouts securely. Taking
+this into account, we design our own version of the self-revocation scheme that
+does not rely on a physical time source in \acp{TEE} but relies on a logical
+time, or ``epochs'', that is distributed over the network. We formally verify
+our design using the Tamarin prover~\cite{meier2013tamarin}, proving that we can
+guarantee revocation with a predefined upper bound on revocation time, and we
+extensively evaluate our scheme to demonstrate its efficiency and scalability.
+We therefore conclude that \acp{TEE}, if used correctly, can enable novel use
+cases and protocols that can bring significant advantages over traditional ones.
+
+Both Tamarin models and evaluation code are available on
+GitHub\footnote{\url{https://github.com/EricssonResearch/v2x-self-revocation}}
+and Zenodo~\cite{supplMaterial}. The repository contains extensive
+documentation, scripts and \ac{CI} pipelines to fully reproduce our results. As
+part of the NDSS 2024 artifact evaluation process, our code received all three
+``Available'', ``Functional'', and ``Reproduced'' badges, and subsequently the
+``Distinguished Artifact Award'' during the conference.
+
+I am the main author of this paper. I developed the core design together with
+Christoph Baumann and I was responsible for the full formal verification work,
+the simulations on Kubernetes, and a significant amount of text.
+
+\begin{formal}
+    \papervtoxrefr{}
+\end{formal}
+
+\subsection{Other Contributions}
+\label{thesis:intro-contributions}
+
+Along with the main contributions, I contributed to other publications that are
+not reported in this dissertation but summarized below.
+
+\paragraph{\papersupplytitle}
+
+Supply chains are complex ecosystems that involve several processes and actors,
+each with different responsibilities and business interests. With recent
+advancements in cyber-physical systems and the \ac{IoT}, it has become possible
+to use sensors to track and monitor the state of a shipment in order to get
+information about the state of the shipment itself and its involved products.
+This allows companies to efficiently manage processes and operations, as well as
+monitoring the integrity of shipments. However, as several stakeholders with
+conflicting interests might be involved in the process, there is a need for a
+secure and transparent supply chain monitoring system where sensor data cannot
+be manipulated by a malicious actor. This work tries to address this problem by
+presenting four incremental designs for secure sensing in supply chains, each
+with different assumptions and approaches to acquire, process and store sensor
+data. We show that, leveraging trusted computing technologies and tamperproof
+storage systems, we can achieve a notion of end-to-end secure sensing where each
+stage of the supply chain pipeline can be protected in terms of integrity,
+authenticity and completeness of sensor data. In addition, we demonstrate the
+feasibility of our designs by evaluating computational overhead, latency and
+hardware costs.
+
+Jan Pennekamp, Fritz Alder and Lennart Bader are the main authors of this paper
+and developed the four designs of our solution. I contributed to the evaluation
+by implementing a prototype for a secure sensing scenario based on the authentic
+execution framework presented in \cref{ch:authexec}. The prototype consists of
+Sancus nodes to perform sensor readings and an Intel \ac{SGX} gateway to collect
+and aggregate data. The evaluation measures the computation and transmission
+times of data for various payload sizes. The artifacts are publicly available on
+GitHub\footnote{\url{https://github.com/COMSYS/secure-sensing}}.
+
+\begin{formal}
+    \papersupplyrefr{}
+\end{formal}
+
+\paragraph{\papersnptitle}
+
+As previously described, provisioning and attesting \acs{VM}-based \acp{TEE} are
+complex tasks involving many processes and software components. Even though open
+source solutions exist, there is no unified tool that automates the whole
+pipeline, from building the \ac{VM} image (including firmware, kernel and root
+filesystem) to deploying and attesting the running \ac{CVM}. Furthermore,
+support for AMD \sevsnp{} in the Linux kernel, \ac{OVMF} firmware and QEMU is
+still in active development today, with frequent changes that may temporarily
+break new or existing workloads. This makes it cumbersome and time-consuming for
+users to get started with \acs{VM}-based \acp{TEE}. To address this problem, we
+present an open source tool called \emph{SNPGuard}, which tries to simplify and
+automate \ac{CVM} provisioning and attestation as much as possible. Our work
+consists of several building blocks that focus on specific stages of the
+pipeline, e.g., building the \sevsnp{} toolchain, creating a \ac{VM} image, and
+attesting a running \ac{CVM}, as well as scripts and documentation to bring such
+building blocks together. We support two different workflows, depending on
+whether the root filesystem should only have integrity protection or,
+additionally, encryption. Even though our implementation focuses on AMD
+\sevsnp{}, our concepts should apply to other \acs{VM}-based \acp{TEE} with
+minor modifications to the code.
+
+Luca Wilke is the first author of this paper, and we shared work equally. This
+contribution was published as a \emph{tool paper}, i.e., it is not a research
+publication but a (peer-reviewed) description of our tool. Besides, this work
+was partially developed to carry out the research leading to the contribution
+presented in \cref{ch:cloud}. As part of the SysTEX 2024 artifact evaluation
+process, our code received all three ``Available'', ``Functional'', and
+``Reusable'' badges. The tool is publicly available on
+GitHub\footnote{\url{https://github.com/SNPGuard/snp-guard}}.
+
+\begin{formal}
+    \papersnprefr{}
+\end{formal}

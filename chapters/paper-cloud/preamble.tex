@@ -1,0 +1,123 @@
+\section*{Preamble}
+
+The design of the authentic execution framework described in \cref{ch:authexec}
+leveraged process-based \acsp{TEE} like Intel \acs{SGX} to minimize the attack
+surface as much as possible. Indeed, running small portions of code into
+hardware enclaves was one of the main objectives and strong points of early
+\acs{TEE} designs. However, in recent years there has been a turnaround, where
+new \acs{VM}-based \acsp{TEE} such as Intel \acs{TDX} and AMD \sevsnpshort{} are
+being used to protect entire virtual machines. These workloads, also called
+\acp{CVM}, include several software layers ranging from the guest firmware to
+the operating system and applications, thereby leaving a much larger attack
+surface compared to process-based \acsp{TEE}. Despite this, it seems that the
+community is progressively moving towards these new \acsp{TEE} because they are
+much easier to use, as \ac{CVM} do not require any application-level changes and
+can be integrated into cloud workloads with minor modifications. In addition,
+\acs{VM}-based \acsp{TEE} provide some native support for secure I/O to leverage
+accelerators such as GPUs securely and efficiently. This, for example, is the
+case of Intel \acs{TDX} Connect~\cite{intelTdxConnect} and AMD
+\acs{SEV}-TIO~\cite{AmdSevTioWhitepaper}, both of which implement the \ac{TDISP}
+specification~\cite{tdispSpec} to create secure channels between a \ac{CVM} and
+a trusted device.
+
+\iffalse
+First,
+applications running in a \ac{CVM} do not require any changes, which greatly
+simplifies the deployment of workloads and enables the so-called
+``lift-and-shift'' approach where legacy workloads are moved to a \acs{TEE}
+seamlessly. Secondly, \acp{CVM} are ``cloud-native'', i.e., they can be
+integrated into existing cloud workloads with minor changes. As an example, the
+Kata container runtime~\cite{kata} can leverage \acs{VM}-based \acp{TEE} to isolate
+microservices in a Kubernetes cluster, again using the lift-and-shift approach.
+Finally, \ac{CVM} workloads might have a better performance because there is no
+\acs{TEE} boundary between an application and the operating system, unlike
+process-based \acsp{TEE}.
+\fi
+
+Although \acs{VM}-based \acsp{TEE} make it significantly easier to deploy
+confidential workloads compared to their precedessors, effectively lowering the
+bar on confidential computing adoption, there are still some non-trivial
+challenges that need to be taken into account. In this chapter, we discuss the
+increased complexity of performing remote attestation on \acs{CVM} workloads. As
+mentioned above, booting up a \acs{VM} goes through several stages where several
+software components are loaded into \acs{TEE} memory at different times. A
+compromise at any stage might break the integrity of the \acs{CVM} as a whole,
+therefore a verifier needs to \emph{measure} each of these components to ensure
+that what is being loaded into the \acs{TEE} matches the expected measurements.
+Normally, the \acs{TEE} computes a measurement of the initial state of the
+\acs{CVM}, also called \emph{launch measurement}, and includes it to the
+attestation report; However, this measurement typically only includes the very
+first piece of software that is loaded in the \acs{CVM} (e.g., the firmware),
+while the rest of the boot chain is not measured and requires other methods to
+ensure its integrity.
+%
+\iffalse
+Moreover, a virtual machine interacts with a filesystem to load the operating
+system and applications, which also needs to be properly protected from
+tampering or unauthorized access. However, \acsp{TEE} by design do not protect
+data at rest, therefore we need other techniques to ensure their confidentiality
+and integrity.
+\fi
+%
+This behavior is different from process-based \acsp{TEE}, where the whole
+enclave binary is loaded (and, therefore, measured) at once. In this case, the
+launch measurement computed by the \acs{TEE} includes the entire memory layout
+of the enclave, making remote attestation easier.
+
+The increased complexity on the attestation of \acp{CVM} compared to enclaves is
+exacerbated when deploying workloads on public clouds, where the cloud provider
+has some control over the software components that are being loaded into
+\ac{CVM} memory. In fact, it is common that cloud customers are restricted to a
+predefined list of images that they can choose from, which are managed by the
+cloud provider. Even though the customer in some cases is allowed to (partially)
+customize a \acs{VM} image, some components such as the guest firmware might be
+proprietary and closed-source. As a consequence, attesting the full \ac{CVM}
+boot chain becomes extremely difficult (if not impossible) to perform without
+some support from the cloud provider. This raises interesting questions about
+trust between a cloud provider and its customers: According to the \acs{TEE}
+threat model, the infrastructure provider is untrusted by design and, because of
+this, confidential computing is gaining a lot of attention in the cloud market
+since several customers would benefit from such a solution to protect their
+sensitive data from unauthorized access. However, relying on the cloud provider
+for the attestation of \acp{CVM} partially defeats the purpose of using
+\acsp{TEE} in the first place. In our work, we investigate this issue and try to
+shed some light on the whole \ac{CVM} attestation process.
+
+This chapter presents our findings, which were presented at the SysTEX 2024
+workshop and received the Best Paper award. Our research also resulted in a
+\emph{tool} paper that was published in the same workshop, thanks to a
+collaboration with Luca Wilke~\cite{wilke2024snpguard}. The motivation behind
+this second publication was that, in our experience, setting up \acp{CVM} was
+quite a daunting task. Among all, the biggest problems were caused by a lack of
+open-source tooling and documentation available, which caused some extra effort
+and manual work. Thus, we developed and released
+SNPGuard\footnote{\url{https://github.com/SNPGuard/snp-guard}}, a tool that
+greatly simplifies \ac{CVM} provisioning and attestation based on AMD
+\sevsnpshort{}, providing a high level of automation on every step of the
+process. We hope that our tool can help researchers accelerate research in the
+same field and lower the bar towards \acs{TEE} adoption.
+
+The evaluation presented in our paper was carried out in March 2024, but the
+main results presented in \cref{tbl:cloud-landscape}, to a large extent, are
+still valid at the time this preamble is being written (i.e., November 2024).
+Nevertheless, a few potential improvements to current offerings are worth
+mentioning: On Microsoft Azure, it should now be possible to retrieve fresh
+\sevsnpshort{} attestation reports from the
+\acs{vTPM}~\cite{azurevTPMfreshness}, solving the freshness problem mentioned in
+\cref{eval:cloud-results}. Besides, \ac{GCP} customers can now verify the
+firmware running on \ac{CVM} instances~\cite{googleVerifyFirmware}; However, at
+the current stage only the binaries are publicly available, while the code still
+remains closed-source. On the other hand, Microsoft has recently released the
+source code of its paravisor, OpenHCL, on GitHub~\cite{openHclGithub}. This
+would potentially allow cloud customers to measure and verify the very first
+piece of software loaded into Azure's \acp{CVM} (and, from there, the entire
+boot process), though this is still not possible since a reproducible build
+process for OpenHCL is currently not implemented yet. Additionally, Azure's
+DCas\_cc\_v5 and DCads\_cc\_v5 machines support nested
+virtualization~\cite{azureDocsNestedVirtualization}, which potentially allows
+running a \sevsnpshort{} \ac{CVM} from within a normal \acs{VM} (this process is
+called ``CVM-in-VM''). With this approach, cloud users could install their own
+hypervisor in the normal \acs{VM} and fully customize the boot process of
+\acp{CVM} (and, subsequently, attestation), thus bypassing the cloud provider.
+This approach, still in preview on Azure, can dramatically reduce trust towards
+the cloud provider.

@@ -1,0 +1,332 @@
+\section{Trusted Execution Environments}
+\label{thesis:intro-cc}
+
+With the term \acl{TEE} we refer to a set of \emph{hardware} extensions that can
+be used to protect an application while executing within an (untrusted) system.
+While there are technical differences between different architectures, all
+\acp{TEE} aim to provide two main features:
+%
+\begin{enumerate}
+    \item \emph{Hardware-based isolation} of logical resources to give
+    confidentiality and integrity guarantees to application code and data. This
+    is enforced in various ways depending on the specific \ac{TEE} design, but
+    in general it involves ISA extensions to provide instructions for
+    enabling/disabling protections and an access control mechanism to prevent
+    illegal access to protected memory and CPU registers. The latter can be
+    purely logical (e.g., allow or deny access based on the current program
+    counter), cryptographic (e.g., encrypt and authenticate \ac{TEE} memory), or
+    both. Some architectures may also bring additional elements to provide e.g.,
+    some form of protection against side channels and physical attacks.
+    \item \emph{Remote attestation}, a procedure to verify that an application
+    is indeed running within a \ac{TEE} as expected. Here, a remote
+    \emph{verifier}, which can be the application owner, can obtain a piece of
+    \emph{evidence} containing information about the platform itself, such as
+    firmware and microcode version, as well as information about the running
+    workload, such as a measurement of the memory layout of the application at
+    boot time that can be compared to good, known reference values. It is
+    important to protect the integrity and authenticity of the evidence using
+    some cryptographic function. In most cases, a digital signature made over
+    the evidence by the \ac{TEE} itself gives proof of authenticity and is
+    verified through a public key infrastructure managed by the \ac{TEE}
+    manufacturer. The information included in the evidence, instead, is used to
+    determine if the workload is running on an up-to-date platform and has not
+    been tampered with during the provisioning phase.
+\end{enumerate}
+
+Together, these two features can give strong confidentiality, integrity and
+authenticity guarantees to an application running within a \ac{TEE}. Other
+mechanisms offered by some \acp{TEE} can additionally provide some support for
+secure storage (e.g., \emph{data sealing}) and secure I/O. In contrast,
+availability is typically out of scope of \ac{TEE} designs. Even though some
+academic proposals do exist to provide some form of trusted
+scheduling~\cite{alder_2021_aion}, commercial \acp{TEE} do not give any
+guarantees about the execution of applications, which is still managed via
+traditional means by the untrusted operating system or hypervisor.
+
+Another important property of \acp{TEE} is a significant reduction of the
+\ac{TCB}, since large software components such the host operating system and the
+hypervisor are kept outside of the secure environment, thus leaving a much
+smaller attack surface. This ``breaks'' the layered model of traditional systems
+(cf.~\cref{thesis:intro-concepts}), allowing to isolate core workloads from the
+rest of the software stack. Besides, part of the \ac{TCB}, such as application
+code and \ac{TEE} version, can be verified using remote attestation to ensure
+that they are in an expected state, giving additional guarantees about the
+current state of the workload. Here, it is worth mentioning that the entire
+attestation infrastructure is also included in the \ac{TCB}.
+
+\subsection{Hardware-based Isolation}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{tee.drawio.pdf}
+    \caption[Main TEE architectures]{Main \acs{TEE} architectures. The colored
+    boxes represent trusted elements that are part of the \acs{TCB}. Software
+    components, as well as some parameters related to the \ac{TEE} hardware such
+    as the firmware version, can be verified via remote attestation.}
+    \label{fig:phd-intro-tees}
+\end{figure}
+
+Existing \acp{TEE} can be divided in two main categories:
+%
+\begin{paraenum}
+    \item \emph{Process-based}, where the isolation happens at the application
+    layer, while the underlying operating system remains untrusted, and
+    \item \emph{\acs{VM}-based}, where an entire virtual machine is protected,
+    including guest firmware and operating system, while the host hypervisor is
+    untrusted.
+\end{paraenum}
+%
+Both architectures are illustrated in \cref{fig:phd-intro-tees} and discussed in
+more detail below.
+
+\paragraph{Process-based TEEs}
+
+\iffalse
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.8\columnwidth]{process-based.drawio.pdf}
+    \caption[Process-based TEEs]{Process-based \acsp{TEE}.}
+    \label{fig:phd-intro-process-based}
+\end{figure}
+\fi
+
+Process-based \acp{TEE} allow to isolate a single application, or part of it,
+inside an isolated environment that is commonly known as \emph{enclave}.
+Enclaves are loaded in a protected memory region that is inaccessible by neither
+the ``untrusted'' application nor the operating system. Instead, they have a
+well-defined entry point that can be called from the outside and used to request
+some services, such as executing a function or storing some data in secure
+memory. Likewise, enclave code can call untrusted code to, e.g., execute system
+calls. In both cases, the processor performs a context switch to save or restore
+enclave state. The lifecycle of enclaves is fully managed by the untrusted
+application, which is responsible for calling the CPU instructions to create a
+new empty enclave, load pages in memory, initialize the enclave, and finally
+calling its functions.
+
+In the industry, the most popular process-based \ac{TEE} is Intel
+\ac{SGX}~\cite{sgx}, available on high-end x86 processors. On ARM devices,
+TrustZone~\cite{alves:trustzone} allows partitioning memory into a ``normal''
+and ``secure'' world. While not being a \ac{TEE} by itself, it can be paired
+with a trusted OS such as OP-TEE~\cite{OPTEE} to provide enclave-like execution
+environments in the secure world. Finally, although many academic solutions
+exist, in this dissertation we only focus on Sancus~\cite{sancus}, a \ac{TEE}
+designed for low-end microprocessors based on the OpenMSP430 architecture.
+
+Process-based \acp{TEE} require applications to be partitioned into a secure and
+non-secure component. To do so, most \acp{TEE} provide a \ac{SDK} to manage the
+enclave lifecycle, call enclave functions, handle system calls and data transfer
+between secure and non-secure code, and perform remote attestation. This gives
+high flexibility and allows isolating sensitive code from the rest of the
+(possibly big) codebase, which helps minimizing the \ac{TCB} and thus the attack
+surface. At the same time, however, it requires a significant development effort
+to carefully design enclave applications, locate and isolate sensitive
+functions, manage and sanitize data that goes in and out of the enclave. This
+can be prohibitively expensive, especially when redesigning existing (legacy)
+applications that consist of thousands or millions lines of code, and it also
+requires additional expertise in application developers. Several solutions exist
+to mitigate these issues, such as frameworks like Open
+Enclave~\cite{openenclave} that facilitate the development of enclave
+applications by abstracting the \ac{TEE} layer away, or library OSes and
+runtimes like Graphene-SGX~\cite{grapheneSgx} (now called Gramine) that provide
+a middleware layer offering OS-like functionalities inside the enclave. In the
+latter case, it is sometimes possible to port existing applications to enclaves
+with little to no changes to the codebase, which significantly reduces the
+development effort but at the same time it increases the \ac{TCB}.
+
+\paragraph{VM-based TEEs}
+
+Given the complexity and the development effort to port applications to
+enclaves, coupled with a rising need to protect and isolate sensitive \ac{VM}
+workloads in the cloud, recent \ac{TEE} architectures take a different approach,
+offering isolation mechanisms not at the application but at the virtualization
+layer. In this scenario, entire \acp{VM} are loaded into secure memory, which
+includes guest firmware (not shown in \cref{fig:phd-intro-tees}), kernel, and
+applications. In the industry, this functionality is offered by AMD
+\sevsnp{}~\cite{AmdSevSnpWhitepaper}, Intel \ac{TDX}~\cite{intelTdxWhitepaper},
+and ARM \ac{CCA}~\cite{armCCA}.
+
+\acs{VM}-based \acp{TEE} do not require any changes to applications because
+there is no \ac{TEE} boundary between the application layer and the guest
+operating system. Thus, applications can execute system calls as usual, without
+incurring a context switch to go in or out of the \ac{TEE}. Not only does this
+greatly reduce the burden to port applications to \acp{TEE}, but it can also
+improve performance in some cases. However, this comes at the cost of a
+significantly bigger \ac{TCB} compared to enclaves.
+
+Even though no changes are needed in the application layer, the guest \ac{VM}
+still needs to be \ac{TEE}-aware in order to execute, e.g., to properly
+configure page metadata to select which pages should be encrypted and which
+should be shared with the hypervisor. Depending on the case, these changes can
+be either implemented in the guest firmware or in the guest operating system. In
+the open-source community, support for AMD \sevsnp{} and Intel \ac{TDX} is in
+active development and some patches have already been upstreamed in the Linux
+kernel, as well as in QEMU and \ac{OVMF}. Nevertheless, it is also possible to
+run ``legacy'' (i.e., non-\ac{TEE}-aware) \acp{VM} by adding a privileged
+\emph{paravisor} layer inside the \ac{VM} responsible for the correct
+configuration of the workload. This is, for example, supported in AMD \sevsnp{}
+via the Linux \ac{SVSM}~\cite{coconutSVSM}. Apart from compatibility support for
+legacy workloads, a paravisor can also enable additional services such as a
+\ac{vTPM}~\cite{narayanan2023svsm}.
+
+In the cloud, \acs{VM}-based \acp{TEE} can offer strong hardware-based workload
+isolation, which can be used either as a defense-in-depth approach to isolate
+different tenants (together with hypervisor-based isolation), or as a mechanism
+to prevent unauthorized access to a tenant's sensitive data by a malicious cloud
+provider. In this latter scenario, workloads running in \acs{VM}-based \acp{TEE}
+are commonly called \acp{CVM}.
+
+\subsection{Remote Attestation}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=.95\columnwidth]{rats.drawio.pdf}
+    \caption[Simplified RATS architecture]{Simplified version of the \acs{RATS}
+    architecture~\cite{ietfRats} applied to \acsp{TEE}. The colored boxes
+    represent the elements whose trustworthiness is assessed by the verifier
+    when checking the attestation report. Verifier, policy and reference values
+    are proper \acs{RATS} terms, whereas for other relevant components a mapping
+    to the official terminology is reported between brackets.}
+    \label{fig:phd-intro-rats}
+\end{figure}
+
+Even though each \ac{TEE} implements remote attestation differently, the key
+concepts are common to all technologies and have been standardized in the IETF
+RFC 9334 under the \ac{RATS} architecture~\cite{ietfRats}.
+\cref{fig:phd-intro-rats} shows a simplified version of this architecture.
+
+Attestation is typically initiated by the \emph{verifier}, who requests a report
+(or \emph{evidence} in \ac{RATS} terms) from the \ac{TEE} instance
+(\emph{attester}). Such a report is retrieved from the \ac{TEE} runtime, e.g.,
+the \ac{QE} in Intel \ac{SGX} and \ac{TDX}, or the AMD \ac{SP} in \sevsnp{}.
+Freshness can be guaranteed by attaching some custom data to the report, such as
+a nonce or a timestamp, which may be provided by the verifier itself. To verify
+the authenticity of the report, the verifier has to retrieve the root of trust
+(\emph{endorsement}) from the \ac{TEE} manufacturer (\emph{endorser}). This root
+of trust can vary according to the \ac{TEE} and attestation scheme: In recent
+\acp{TEE}, the root of trust is a \ac{PKI} root certificate that can be used to
+verify the signature and certificate chain of the report. Older or academic
+\acp{TEE} use different techniques, such as the \ac{EPID} scheme in Intel
+\ac{SGX}~\cite{SGXexplained} or a symmetric key derivation in Sancus. After
+verifying that the report is authentic, i.e., coming from a legitimate \ac{TEE},
+the verifier checks its content against some predefined policy and reference
+values to make sure that the \ac{TEE} is in the expected state, which involves
+both the platform and the instance itself. Regarding the former, the verifier
+checks if the \ac{TEE} firmware and runtime are up-to-date, and if the host has
+the desired features (e.g., some BIOS settings are enabled or disabled).
+Concerning the latter, instead, the verifier checks the launch policy, which
+contains information such as whether debugging is enabled or not or if instance
+migration is allowed, and finally compares the \emph{launch measurement} against
+its reference value. This measurement consists of a hash over the initial memory
+layout of the \ac{TEE} instance and may include additional information such as
+page metadata. Successfully verifying the launch measurement gives the verifier
+a guarantee that the \ac{TEE} instance is running the expected code. At this
+point, the attestation process is complete and, if all checks are successful,
+the \ac{TEE} instance can be trusted.
+
+\iffalse
+The \ac{RATS} architecture gives a more detailed and formal definition of the attestation
+process, also including additional entities such as the relying party, i.e., the
+entity to whom the verifier delivers the attestation results. Besides, it also
+provides an in-depth description of the trust model, message formats, and
+strategies to guarantee freshness of the attestation evidence. 
+\fi
+
+It is important to note that the attestation report only reflects the
+\emph{initial state} of the running \ac{TEE} instance, i.e., the initial memory
+layout and parameters. For \acs{VM}-based \acp{TEE}, as will be clear later on
+in \cref{ch:cloud}, only the guest firmware is reflected in the initial
+measurement, thus the verifier needs to employ additional techniques to
+``extend'' this measurement to upper layers such as the guest OS and
+applications. Yet, measuring binary files only guarantees integrity at boot
+time, but cannot detect runtime attacks such as memory corruption. For detecting
+this class of attacks, \ac{TEE} attestation is out of scope and other techniques
+such as static/dynamic analysis and control-flow attestation should be used
+instead~\cite{alder2024pandora,sha2024control}.
+
+\subsection{Threat Model}
+\label{thesis:intro-threat}
+
+To better understand the concepts of this dissertation, it is important to give
+a general overview of the \ac{TEE} threat model. A more detailed discussion of
+assumptions and attacker capabilities is then provided separately for each
+contribution, in the respective chapters (cf.~\cref{thesis:intro-outline}).
+
+\paragraph{Isolation}
+
+As mentioned above, \acp{TEE} give confidentiality, integrity and authenticity
+of code and data running within them. This is achieved by means of hardware
+extensions to enforce isolation, software libraries, tools and \acp{SDK} for the
+development and management of \ac{TEE} applications, and an attestation
+infrastructure that gives the possibility to verify security claims. These
+elements are provided by the \ac{TEE} manufacturer and are thus \emph{trusted}
+by assumption (although components that are open-source can be manually
+reviewed). Furthermore, we also assume that all cryptography is secure and
+cannot be broken, including encryption algorithms, hashes, digital signatures
+and public key infrastructure. Instead, all other software running outside of
+the \ac{TEE} such as host hypervisor, host operating system and other
+applications, along with actors such as the infrastructure provider, local
+tenants in the system and remote users are by design untrusted and possibly
+malicious. 
+
+In this model, \acp{TEE} can protect the confidentiality and integrity of
+applications even when the underlying infrastructure is fully compromised, but
+cannot help if the application itself is vulnerable. Attackers that are able to
+exploit a bug in the code can easily break \ac{TEE} isolation and access or
+modify data. Similarly, an adversary might try to exploit the interface between
+the code running inside the \ac{TEE} and the untrusted world, e.g., sending
+malicious inputs or modifying outputs. In both cases, it is often up to the
+software developer to prevent such attacks from happening, e.g., by keeping the
+\ac{TCB} small and sanitizing interfaces.
+
+\paragraph{Attacks on TEEs}
+
+Despite the isolation guarantees provided by \acp{TEE}, there are some attacks
+that current technologies may be vulnerable to. First, even though \acp{TEE}
+protect memory from unauthorized access, a privileged adversary can observe
+access patterns and infer secret data via side
+channels~\cite{lou2021survey,canella2019systematic,shen2021sidechannelsok}.
+Since \acp{TEE} assume a fully compromised host, attackers can leverage
+techniques to precisely control the execution of \ac{TEE} applications even at
+instruction-level granularity (i.e.,
+\emph{single-stepping})~\cite{controlled-channel-attacks,jo2017sgxstep,wilke2024sevstep}.
+Side-channel exploitation on \acp{TEE} has been repeatedly demonstrated in the
+past, especially on Intel \ac{SGX}~\cite{schaik2024sgxsok}. Recently, techniques
+such as AEX-Notify have been implemented to mitigate single-stepping on
+enclaves~\cite{constable2023aexnotify}; Such mechanisms, while not addressing
+the underlying root cause of side channels, can make it much harder to perform
+this class of attacks. However, motivated attackers might still be able to
+succeed, as demonstrated by a recent attack on Intel
+\ac{TDX}~\cite{tdxdownCCS24}. In general, side-channel attacks are considered
+out of scope by current commercial \acp{TEE} and should be mitigated by means of
+software mechanisms such as constant-time
+programming~\cite{cauligi2020constanttime} and/or oblivious
+computation~\cite{alam2023oblivioussok,sasy2017zerotrace}.
+
+Second, attackers might be able to perform physical attacks to induce faults
+during some sensitive computation and break the confidentiality and/or integrity
+of \ac{TEE}
+applications~\cite{murdock2020plundervolt,chen2021voltpillager,lipp2021platypus}.
+As with side channels, software-based mitigations might also be used here to
+deal with these attacks~\cite{wichelmann2024obelix}, combined with
+hardware-based mechanisms to restrict the usage of certain features such as the
+voltage scaling interface.
+
+Third, the \ac{TEE} implementation itself may present design flaws and bugs that
+can break the confidentiality and integrity of applications. This has been shown
+by researchers on several
+occasions~\cite{morbitzer2018severed,securingUnseen,cui2021smashex,schluter2024heckler,schluter2024wesee,li2022cipherleaks,schaik2024sgxsok}.
+It is worth mentioning that most of these vulnerabilities do not apply to all
+\acp{TEE} in general but are specific to a particular architecture. While most
+of them have been already patched and can be mitigated by running applications
+on up-to-date platforms (which can be verified using remote attestation), it is
+also possible that new vulnerabilities are discovered in the future. If
+attackers are able to exploit a zero-day vulnerability on a particular
+architecture, they might be able to break the isolation provided by the
+\ac{TEE}. Unfortunately, there is little that administrators and application
+developers can do to deal with these attacks, apart from applying traditional
+defense-in-depth techniques and reducing the attack surface as much as possible.
+
+All the aspects mentioned above are crucial when deploying a \ac{TEE} workload
+in the real world, but they are out of the scope of this dissertation.
+Nevertheless, we briefly touch upon them in our concluding chapter
+(cf.~\cref{thesis:concl-future}).

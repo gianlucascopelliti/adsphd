@@ -1,5 +1,4 @@
-%\documentclass[showinstructions,faculty=firw,department=cws,phddegree=cws,helveticaneue]{adsphd}
-\documentclass[showinstructions,faculty=firw,department=cws,phddegree=cws]{adsphd}
+\documentclass[showinstructions,faculty=firw,department=cws,phddegree=cws,final]{adsphd}
 %\documentclass[showinstructions,faculty=firw,department=cws,phddegree=cws,doctoralschool=ads]{adsphd}
 %\documentclass[showinstructions,showlabels,coverfontpercent=100,faculty=firw,department=cws,phddegree=cws]{adsphd}
 %\documentclass[croppedpdf,showinstructions,faculty=firw,department=cws,phddegree=cws]{adsphd}
@@ -19,45 +18,37 @@
 % !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 %%% COVER: Settings %%%
-\title{The Title of Your PhD Dissertation}
-\subtitle{From Artes to AI}
+\title{Secure Integration of Trusted Execution Environments into Distributed Applications}
+%\title{Principled Integration of Trusted Computing into Distributed Applications}
 
-\author{Your}{Name}
+\author{Gianluca}{Scopelliti}
 
-\supervisor{Prof.~dr.~ir.~F.~Leader}{}
-\supervisor{Prof.~dr.~ir.~S.~Leader}{}
-\president{Prof.~dr.~ir.~The~Chairman}{}
-\jurymember{Prof.~dr.~ir.~The~One}{}
-\jurymember{Prof.~dr.~ir.~The~Other}{}
-\externaljurymember{Prof.~dr.~External~Jurymember}{Far Away}
+\supervisor{Prof.~dr.~ir.~W.~Joosen}{}
+\supervisor{Prof.~dr.~J.~T.~M\"{u}hlberg}{}
+\supervisor{Dr.~ir.~C.~Baumann}{}
+\president{Prof.~dr.~ir.~J.~De Schutter}{}
+\jurymember{Dr.~E.~Truyen}{}
+\jurymember{Prof.~dr.~ir.~V.~Naessens}{}
+\externaljurymember{Prof.~dr.~P.~Papadimitratos}{KTH Sweden}
+\externaljurymember{Prof.~dr.~S.~Shinde}{ETH Zurich}
 
 % Your research group within the department
-% e.g. DTAI, MICAS
-\researchgroup{XXXXX}
-\website{http://www.XXXXX.cs.kuleuven.be} % Leave empty to hide
-\email{first.last@cs.kuleuven.be} % Leave empty to hide
+% e.g. iMinds-DistriNet, Scientific Computing Group, ...
+\researchgroup{DistriNet}
+\website{} % Leave empty to hide
+\email{} % Leave empty to hide
 
 \address{Celestijnenlaan 200A box 2402}
 % \addresscity{B-3001 Leuven} % This is the default value. Note
                               % that 'B-3001 Heverlee' is _incorrect_!!
                               % https://www.kuleuven.be/english/language-guide
 
-%%%%%%%%%%%% For joint PhDs only %%%%%%%%%%%%%%%%%%%%%%
-% Change "PARTNER_LOGO.eps" in image folder!
-\facultypartner{Faculty Partner}
-\departmentpartner{Department Partner}
-\addresspartner{Address Partner}
-\addresscitypartner{City Partner}
-\emailpartner{} % Leave empty to hide
-\websitepartner{} % Leave empty to hide
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\date{January 2024}
-\copyyear{2024}
-\copyaddress{Your place of residence}
-%\udc{XXX.XX}             % UDC, deposit number and ISBN are no longer necessary.
-%\depot{XXXX/XXXX/XX}     % Leave out the initial D/ (it is added
-%\isbn{XXX-XX-XXXX-XXX-X} % automatically)
+\date{January 2025}
+\copyyear{2025}
+%\udc{XXX.XX}            % UDC, deposit number and ISBN are no longer necessary.
+%\depot{XXXX/XXXX/XX}    % Leave out the initial D/ (it is added
+                         % automatically)
+%\isbn{XXX-XX-XXXX-XXX-X}
 
 
 % Set spine width:
@@ -74,6 +65,7 @@
 
 %%% COVER: End settings %%%
 
+\iffalse
 % for the nomenclature (comment out if you do not use the nomencl package
 \usepackage{nomencl}   % For nomenclature
 \renewcommand{\nomname}{List of Symbols}
@@ -84,19 +76,21 @@
   \addcontentsline{toc}{chapter}{\nomname} %% comment to exclude from TOC
 }
 \makenomenclature%
+\fi
 
+\iffalse
 % for the list of abbreviations (comment out if you do not use the glossaries package
-\usepackage{glossaries} % For list of abbreviations
+\usepackage[acronym,automake]{glossaries} % For list of abbreviations
 \newcommand{\glossname}{List of Abbreviations}
 \newcommand{\myprintglossary}{%
   \renewcommand{\glossaryname}{\glossname}
   \cleardoublepage%
-  \printglossary[title=\glossname]
+  \printglossary[title=\glossname,type=\acronymtype,nonumberlist,nopostdot]
   \chaptermark{\glossname}
   \addcontentsline{toc}{chapter}{\glossname} %% comment to exclude from TOC
 }
 \makeglossaries%
-
+\fi
 
 % BibLaTeX
 %\usepackage[utf8]{inputenc}
@@ -110,11 +104,14 @@
 %\addbibresource{allpapers.bib}
 
 % Fonts
-\usepackage{textcomp} % nice greek alphabet
-\usepackage{pifont}   % Dingbats
-\usepackage{booktabs}
-\usepackage{amssymb,amsthm}
-\usepackage{amsmath}
+%\usepackage{textcomp} % nice greek alphabet
+%\usepackage{pifont}   % Dingbats
+%\usepackage{booktabs}
+%\usepackage{amssymb,amsthm}
+%\usepackage{amsmath}
+
+% inputs from papers
+\input{chapters/preamble.tex}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -140,28 +137,42 @@
 %    \includeabbreviations{abbreviations}
 % 2. automatic generation via the glossary package
 %    \glossary{name=MD,description=molecular dynamics}
-\myprintglossary
+%\myprintglossary
 
 % To create a list of symbols, there are 2 options
 % 1. include a manually created nomenclature as a chapter
 %    \includenomenclature{nomenclaturechapter}
 % 2. automatic generation via the nomencl package
 %    \nomenclature[cB]{$c_B(\vec{x})$}{Characteristic function of $B$}
-\myprintnomenclature
+%\myprintnomenclature
 
 \tableofcontents
 \listoffigures
 \listoftables
+
+\newcommand{\glossname}{List of Abbreviations}
+\newcommand{\myprintglossary}{%
+  %\renewcommand{\glossaryname}{\glossname}
+  \cleardoublepage%
+  \chapter*{\glossname}
+  \chaptermark{\glossname}
+  \begin{acronym}[Acronyms]
+    \input{chapters/acros.tex}
+  \end{acronym}
+  \addcontentsline{toc}{chapter}{\glossname} %% comment to exclude from TOC
+}
+\myprintglossary%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \mainmatter % to get \pagenumbering{arabic}
 
 % Show instructions on a separate page
-\instructionschapters\cleardoublepage
+%\instructionschapters\cleardoublepage
 
 \includechapter{introduction}
-\includechapter{manual} % Remove this chapter
+%\includechapter{manual} % Remove this chapter
+\input{chapters/papers.tex}
 
 % Insert here your own chapters
 % Chapters are expected to be in a tex-file with the given name dot
@@ -174,7 +185,8 @@
 
 \appendix
 
-\includeappendix{myappendix}
+\input{chapters/appendices.tex}
+%\includeappendix{myappendix}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \backmatter
@@ -191,7 +203,7 @@
 
 % Uncomment the appropriate sentences in and expand the text where needed to make it more specific and add topics if they are not covered by any of the indicated topics.
 \useOfGenAI{%
-  % I did not use generative AI assistance tools during the research/writing process of my thesis, except for mere language assistance. % The use of GenAI tools for language assistance does not need to be further specified. (The part 'except for mere language assistance' can be left out if not applicable)
+  I did not use generative AI assistance tools during the research/writing process of my thesis, except for mere language assistance. % The use of GenAI tools for language assistance does not need to be further specified. (The part 'except for mere language assistance' can be left out if not applicable)
   % I did use the generative AI assistance tools ... % specify which e.g. MS Copilot/ ChatGPT/ResearchRabbit/... Please indicate in which way(s) you were using it and replace Generative AI with the specific AI tool(s) that was/were used:
   % Generative AI was used as a search engine to learn about a particular topic. % If yes, please specify the usage.
   % Generative AI was used for carrying out a literature review. % If yes, please specify the usage.

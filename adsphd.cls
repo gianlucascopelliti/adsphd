@@ -1050,7 +1050,7 @@ LuaLaTeX or XeTeX}
 \newenvironment{ftw_instructions}{
   \definecolor{shadecolor}{gray}{0.85}
   \begin{shaded}
-  \textbf{Instructies van de faculteit:} 
+  \textbf{Instructions:} 
   
   }%
   {
@@ -1060,16 +1060,11 @@ LuaLaTeX or XeTeX}
 \newcommand{\instructionspreface}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-In het voorwoord wordt de algemene doelstelling van het werk samengevat in
-enkele regels en worden personen, diensten of firma's bedankt voor hun
-medewerking bij het tot stand komen van het werk.
-
-De naam van firma's en personen uit deze firma's mogen slechts worden vermeld
-mits hun uitdrukkelijke toelating \'en na overleg met de supervisor(en)!
-Steeds wordt de supervisor(en) vermeld, de verantwoordelijke en eventueel de
-personen die rechtstreeks geholpen hebben bv.\ door het ter beschikking stelling
-van meetresultaten, faciliteiten.  Ook de instantie die eventueel een
-doctoraatsbeurs heeft toegekend wordt bedankt (bv.\ FWO, IWT, \ldots).
+  The preface should summarise the general aim of the work. People, offices,
+  companies and agencies who have awarded a doctoral scholarship (e.g. FWO, IWT)
+  should be thanked for their support. However, the names of these people,
+  offices, companies and agencies may only be mentioned with their explicit
+  consent and after consultation with the supervisor.
 \end{ftw_instructions}
   \else
   \fi
@@ -1087,10 +1082,9 @@ doctoraatsbeurs heeft toegekend wordt bedankt (bv.\ FWO, IWT, \ldots).
 \newcommand{\instructionsabstract}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-In een beknopte tekst van maximum 2 pagina's worden de belangrijkste
-doelstellingen en besluiten geformuleerd, zowel in het Nederlands als in het
-Engels.  Zulke samenvattingen kunnen worden gebruikt in wetenschappelijke
-verslagen van het departement of de faculteit.  Het Engels moet vlekkeloos zijn.
+  The abstract should present the most important aims and conclusions of the
+  dissertation in a brief text of maximum two pages, written both in Dutch and
+  in English.
 \end{ftw_instructions}
   \else
   \fi
@@ -1111,9 +1105,8 @@ Nederlandse samenvatting draagt een Nederlandse titel.
 \newcommand{\instructionslistofsymbols}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-Lijst van gebruikte symbolen:
-omvat de lijst van de belangrijkste gebruikte symbolen met indices, betekenis
-en gebruikte eenheden.
+  These are lists of the most important abbreviations and symbols used in the
+  work, mentioning indices, meaning and measures used.
 \end{ftw_instructions}
   \else
   \fi
@@ -1122,8 +1115,10 @@ en gebruikte eenheden.
 \newcommand{\instructionstableofcontents}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-Inhoudstafel: de inhoudstafel omvat de titels van hoofdstukken en paragrafen
-met verwijzing naar de bladzijden.
+  The table of contents should be arranged neatly and must refer to the pages of
+  the different sections (maximum three levels). Preceding chapter one, Roman
+  numerals (I, II, ...) should be used for the page numbering. From chapter one
+  onwards, Western Arabic numerals (1, 2, ...) should be used.
 \end{ftw_instructions}
   \else
   \fi
@@ -1132,10 +1127,10 @@ met verwijzing naar de bladzijden.
 \newcommand{\instructionsintroduction}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-De inleiding situeert de problematiek, beschrijft de stand van de huidige
-kennis terzake, omschrijft de voornaamste doelstelligen van het werk, samen
-met de beperkende randvoorwaarden en de ter beschikking gestelde middelen en
-poneert de belangrijkste stellingen.
+  A thorough introduction outlining the research in a larger context: Starting
+  from a description of the state of the art in the domain, additionally, the
+  research aims of the PhD are formulated. Furthermore, this includes the global
+  approach and research methods.
 \end{ftw_instructions}
   \else
   \fi
@@ -1144,16 +1139,19 @@ poneert de belangrijkste stellingen.
 \newcommand{\instructionschapters}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-De hoofdstukken: Elk hoofdstuk is ingelast met een bepaald doel voor ogen.
-Dit doel wordt vermeld in de eerste paragraaf van elk hoofdstuk.
-Naargelang de aard van de tekst (experiment, uitvoering, theoretische
-ontwikkeling, \ldots) volgen de paragrafen elkaar op.  Beweringen worden altijd
-gestaafd, hetzij door eigen experimenten, hetzij door een theoretische
-afleiding, hetzij door verwijzingen naar de literatuur.
-Elk hoofdstuk eindigt met een kort samenvattend besluit waarbij nagegaan wordt
-in hoeverre de doelstelling van het betrokken hoofdstuk verwezenlijkt is.  De
-deelbesluiten moeten de lezer automatisch leiden naar het algemeen besluit aan
-het einde van het werk.
+  Report and discussion of the research in different chapters: The chapters
+  dealing with the results of the research performed by the doctoral candidate
+  can take the following forms:
+  \begin{itemize}
+    \item an accepted or submitted publication. This chapter can be a copy of the
+    publication (given the publisher's permission if required) or can be adapted
+    as to form or content;
+    \item An original text which has not been published.
+  \end{itemize}
+
+The doctoral candidate must determine whether the publisher allows public
+availability of the publications and in which form via the webpage Romeo/Sherpa
+(http://www.sherpa.ac.uk/romeo/).
 \end{ftw_instructions}
   \else
   \fi
@@ -1162,13 +1160,9 @@ het einde van het werk.
 \newcommand{\instructionsconclusions}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-Algemene besluiten:
-Verwijzend naar de inleiding en naar de besluiten van de afzonderlijke
-hoofdstukken worden op het einde van het proefschrift de voornaamste besluiten
-gebundeld.  Hier wordt de nadruk gelegd op de eigen inbreng, de verworven
-resultaten, de `stellingen' van het proefschrift en de originele bijdragen tot
-het onderzoeksdomein.  De onopgeloste problemen worden aangestipt en
-suggesties voor eventueel verder onderzoek worden gemaakt.
+  An extensive conclusion, including a global discussion of the research
+  results, a discussion of the implications of the PhD research and future
+  perspectives in regards to follow-up research.
 \end{ftw_instructions}
   \else
   \fi
@@ -1177,8 +1171,12 @@ suggesties voor eventueel verder onderzoek worden gemaakt.
 \newcommand{\instructionsbibliography}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-De bibliografie.
-Departementale richtlijnen terzake te volgen.
+  The thesis needs to be consistent in relation to bibliographic and other
+  references. Either a global list of bibliographic references is provided at
+  the end of the thesis, or each chapter contains bibliographic references, but
+  there cannot be a combination of these two methods of referencing. Finally,
+  references to figures, tables, appendices, and similar structures need to be
+  consistent
 \end{ftw_instructions}
   \else
   \fi
@@ -1187,7 +1185,9 @@ Departementale richtlijnen terzake te volgen.
 \newcommand{\instructionslistofpublications}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-Lijst van de publicaties door de doctorandus/a (auteur of co-auteur).
+  List of publications:(optional): The list of scientific publications by the
+  doctoral researcher should be arranged according to the guidelines generally
+  accepted in the relevant research domain.
 \end{ftw_instructions}
   \else
   \fi
@@ -1196,7 +1196,7 @@ Lijst van de publicaties door de doctorandus/a (auteur of co-auteur).
 \newcommand{\instructionscv}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-Beknopt CV van de doctorandus.
+  Curriculum vitae (optional)
 \end{ftw_instructions}
   \else
   \fi
@@ -1220,13 +1220,10 @@ on the use of Generative AI' in your manuscript.
 \newcommand{\instructionsappendices}{
   \ifadsphd@showinstructions
 \begin{ftw_instructions}
-De appendices:
-ze omvatten alle gedeelten uit de tekst die weliswaar essentieel zijn voor het
-proefschrift, maar waarvan de inlassing in de tekst de leesbaarheid ervan
-nadelig zouden be\"invloeden bv. omwille van hun lengte. Zo kunnen bv. de brute
-meetresultaten of een computerprogramma met zijn bron, commentaar en
-voorbeelden beter thuishoren in een appendix dan in de tekst zelf.
-De appendices kunnen desgevallend worden gebundeld in een apart boekdeel.
+  Appendices: The appendices should include parts of the research which are
+  essential for the work, but which may hamper the readability of the text, e.g.
+  because of their length (mathematical deductions, experimental data, examples,
+  figures, etc.).
 \end{ftw_instructions}
   \else
   \fi
@@ -1761,7 +1758,7 @@ without written permission from the publisher.
     % \ifdefempty{\@researchgroup}{}{{\MakeUppercase\@researchgroup}}\\[-1mm]
     {\@address}\\[-1mm]
     {\@addresspc}\\[-1mm]
-    \ifdefempty{\@email}{}{\@email}\\[-1mm]
+    \ifdefempty{\@email}{}{\@email\\[-1mm]}
     \ifdefempty{\@website}{}{\@website}
   \end{flushright}
   %}

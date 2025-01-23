@@ -1,0 +1,13 @@
+dolev-yao,dolev1983security
+verifiable-tp-commodity,Zhou1
+wimpy-kernels,Zhou2
+zhu2020hetero,zhu2020enabling
+pinto2019demystifyingtz,Pinto2019DemystifyingAT
+FTPM,raj2016ftpm
+kaplan2016amd,AmdSevWhitepaper
+intelTdx,intelTdxWhitepaper
+tpm2015ieee11889,tpmdoc
+TPM2.0-Rev-01.59,tpmdoc
+schneider2022sok,schneider2022hardware
+sailer2004design,sailer2004ima
+rfc5280,ietfcrl

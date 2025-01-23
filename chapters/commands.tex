@@ -1,0 +1,285 @@
+%* shared *%
+\newcommand{\christoph}[2][]{\todo[color=orange!20,#1]{\textbf{Christoph:} #2}}
+\newcommand{\gianluca}[2][]{\todo[color=red!20,#1]{\textbf{Gianluca:} #2}}
+\newcommand{\jt}[2][]{\todo[color=blue!20,#1]{\textbf{JT:} #2}}
+
+\newcommand{\pie}[1]{%
+\begin{tikzpicture}
+ \draw (0,0) circle (1ex);\fill (1ex,0) arc (0:#1:1ex) -- (0,0) -- cycle;
+\end{tikzpicture}%
+}
+
+\newcommand{\revpie}{%
+\begin{tikzpicture}
+ \draw (0,0) circle (1ex);\fill (0,1ex) arc (90:270:1ex) -- (0,0) -- cycle;
+\end{tikzpicture}%
+}
+
+\newcommand{\tableYes}{\pie{360}}
+\newcommand{\tableNo}{\pie{0}}
+\newcommand{\tablePartial}{\revpie}
+
+%* auth-exec *%
+
+\newcommand{\implurl}{\url{https://github.com/AuthenticExecution/main}}
+
+% colour scheme for colour blind people
+\definecolor{color1}{RGB}{254,97,0}
+\newcommand{\coloriname}{orange}
+\definecolor{color2}{RGB}{255,176,0}
+\newcommand{\coloriiname}{yellow}
+\definecolor{color3}{RGB}{100,143,255}
+\newcommand{\coloriiiname}{blue}
+\definecolor{color4}{RGB}{120,94,240}
+\newcommand{\colorivname}{purple}
+\definecolor{color5}{RGB}{220,38,127}
+\newcommand{\colorvname}{red}
+
+\newcommand{\colorsgx}{color3}
+\newcommand{\colorsancus}{color2}
+\newcommand{\colortz}{color5}
+\newcommand{\colornative}{color4}
+
+%% creating figure command
+\newcommand{\fig}[4]{%
+  \begin{SCfigure}
+    \centering
+      \includegraphics[width=\textwidth]{#1}
+    \caption[#2]{#3}
+    \label{fig:#4}
+  \end{SCfigure}%
+}
+
+\renewcommand\sidecaptionsep{5mm}
+\sidecaptionvpos{figure}{t}
+
+\newcommand{\sclist}[5]{%
+  \begin{SCfigure}[.9]
+    \centering
+    {\begin{minipage}{#1\textwidth}
+      {#2}
+    \end{minipage}}
+    \caption[#3]{%\protect\rule{0ex}{5ex}
+     #4}
+    \label{#5}
+    %\vspace{-3mm}
+  \end{SCfigure}%
+}
+
+\newcounter{inlasscnt}
+\renewcommand{\theinlasscnt}{{\bf A\arabic{inlasscnt}}}
+\newcommand{\inlass}[2]{\refstepcounter{inlasscnt}\theinlasscnt\label{#1}:~{\it #2}}
+
+\newcounter{ioasscnt}
+\renewcommand{\theioasscnt}{{\bf IO\arabic{ioasscnt}}}
+\newcommand{\ioass}[2]{\refstepcounter{ioasscnt}\theioasscnt\label{#1}:~{\it #2}}
+
+\newcounter{dplasscnt}
+\renewcommand{\thedplasscnt}{{\bf D\arabic{dplasscnt}}}
+\newcommand{\dplass}[2]{\refstepcounter{dplasscnt}\thedplasscnt\label{#1}:~{\it #2}}
+
+\newcommand{\fio}[3]{F_{#1, \text{#3}_#2}}
+\newcommand{\fin}[2]{\fio{#1}{#2}{in}}
+\newcommand{\fout}[2]{\fio{#1}{#2}{out}}
+\newcommand{\function}[3]{(\fin{#1}{#2}, \fout{#1}{#2})}
+\newcommand{\confreg}{\ensuremath{R_C}}
+\newcommand{\eventstream}{\ensuremath{S_E}}
+
+\newcommand{\node}[1]{\ensuremath{N_\textit{#1}}}
+\newcommand{\dev}[1]{\ensuremath{D_\textit{#1}}}
+\newcommand{\app}[1]{\ensuremath{A_\textit{#1}}}
+\newcommand{\module}[1]{\ensuremath{M_\textit{#1}}}
+
+\newcommand{\appvio}{\app{\textit{Flo}}}
+\newcommand{\appavl}{\app{\textit{Agg}}}
+
+\newcommand{\reactmod}{source module}
+\newcommand{\reactmods}{\reactmod s}
+
+\newcommand{\protmod}{\ac{SM}}
+\newcommand{\protmods}{\acp{SM}}
+
+\newcommand{\cmd}[1]{\texttt{#1}}
+\newcommand{\api}[1]{\texttt{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\keytab}{\api{KeyTable}}
+\newcommand{\cbtab}{\api{CbTable}}
+\newcommand{\conntab}{\api{ConnectionTable}}
+\newcommand{\noncetab}{\api{NonceTable}}
+\newcommand{\setkey}{\api{SetKey}}
+\newcommand{\handleinput}{\api{HandleInput}}
+\newcommand{\handleoutput}{\api{HandleOutput}}
+\newcommand{\attest}{\api{Attest}}
+\newcommand{\loadmodule}{\api{LoadModule}}
+\newcommand{\callentry}{\api{CallEntry}}
+\newcommand{\addconnection}{\api{AddConnection}}
+\newcommand{\handlelocalevent}{\api{HandleLocalEvent}}
+\newcommand{\handleremoteevent}{\api{HandleRemoteEvent}}
+\newcommand{\smentry}{\api{SM\_ENTRY}}
+\newcommand{\smfunc}{\api{SM\_FUNC}}
+\newcommand{\smdata}{\api{SM\_DATA}}
+\newcommand{\sminput}{\api{SM\_INPUT}}
+\newcommand{\smoutput}{\api{SM\_OUTPUT}}
+\newcommand{\wrap}{\api{Encrypt}}
+\newcommand{\unwrap}{\api{Decrypt}}
+\newcommand{\genattevid}{\api{GenAttestationEvidence}}
+\newcommand{\callerid}{\api{CallerId}}
+\newcommand{\conn}{\api{Connection}}
+\newcommand{\registercb}{\api{RegisterInputCb}}
+\newcommand{\acquire}{\api{AcquireOutput}}
+
+\newcommand{\aes}{\textsc{aes}}
+\newcommand{\aesgcm}{\textsc{aes-gcm}}
+\newcommand{\spongent}{\textsc{spongent}}
+\newcommand{\spongewrap}{\textsc{SpongeWrap}}
+
+\newcommand{\rustsgxgen}{\textsc{rust-sgx-gen}}
+\newcommand{\reactools}{\cmd{reactive-tools}}
+\newcommand{\db}{\emph{db}}
+\newcommand{\webserver}{\emph{webserver}}
+
+\newcommand{\web}{\emph{web}}
+\newcommand{\gateway}{\emph{gateway}}
+\newcommand{\tempsensor}{\emph{temp\_sensor}}
+\newcommand{\thermostat}{\emph{thermostat}}
+\newcommand{\light}{\emph{light\_switch}}
+
+\newcommand{\modname}[1]{\texttt{mod-#1}}
+
+\newcommand{\LOOKUP}{\mathrm{lookup}}
+\newcommand{\EVENT}{\mathit{ev}}
+\newcommand{\OUTPUT}{\mathit{out}}
+
+\newcommand{\trans}{\rightarrow}
+\newcommand{\longtrans}{\longrightarrow}
+
+\newcommand{\silenttrans}{\overset{\cdot}{\trans}}
+\newcommand{\argtrans}[1]{\overset{#1}{\trans}}
+\newcommand{\longargtrans}[1]{\overset{#1}{\longtrans}}
+
+\newcommand{\compiled}[1]{\lfloor #1 \rfloor}
+\newcommand{\uncompiled}[1]{\lceil #1 \rceil}
+%\newcommand{\qed}{\hfill$\square$}
+
+%* V2X */
+\newcommand{\repo}{\url{https://github.com/EricssonResearch/v2x-self-revocation}}
+\newcommand{\repotamarin}{\url{https://github.com/EricssonResearch/v2x-self-revocation/tree/main/proofs}}
+\newcommand{\repoprl}{\url{https://github.com/EricssonResearch/v2x-self-revocation/tree/main/prl}}
+\newcommand{\reposimulation}{\url{https://github.com/EricssonResearch/v2x-self-revocation/tree/main/simulation}}
+
+\newcommand{\tamarin}{\textsc{Tamarin}}
+\newcommand{\tamrule}[1]{\texttt{#1}}
+
+\newcommand{\rewire}{\textsc{Rewire}}
+
+% TC functions
+\newcommand{\funcsetup}{\textsc{Setup}}
+\newcommand{\funccreate}{\textsc{Create}}
+\newcommand{\funcjoin}{\textsc{Join}}
+\newcommand{\funcissue}{\textsc{Create}}
+\newcommand{\funcsign}{\textsc{Sign}}
+\newcommand{\funcverify}{\textsc{Verify}}
+\newcommand{\funcheartbeat}{\textsc{Heartbeat}}
+\newcommand{\funcrevokedaa}{\textsc{Revoke}}
+
+% names
+\newcommand{\vehicle}[1]{\emph{$v_{#1}$}}
+\newcommand{\tc}[1]{\emph{$\mathit{TC}_{#1}$}}
+\newcommand{\ps}{\emph{$\mathit{ps}$}}
+
+% functions and variables
+\newcommand{\funcnow}{\emph{$\mathsfit{now}$}}
+\newcommand{\funcgettime}{\emph{$\mathsfit{get\_time}()$}}
+\newcommand{\varnow}{\emph{$\mathsfit{current}$}}
+\newcommand{\funcrevoke}[1]{\emph{$\mathsfit{revoke}(#1)$}}
+\newcommand{\funcrevokepar}[1]{\emph{$\mathsfit{revoke}(#1)$}}
+\newcommand{\funcselfrevoke}[1]{\emph{$\mathsfit{self\_revoke}(#1)$}}
+\newcommand{\funcautorevoke}{\emph{$\mathsfit{auto\_revoke()}$}}
+\newcommand{\funcsignature}[1]{\emph{$\mathsfit{sig}_{\mathsf{RA}}(#1)$}}
+
+% parameters
+%\newcommand{\paramtd}{\emph{$T_{\mathsf{d}}$}}
+\newcommand{\paramtd}{\emph{$\Delta$}}
+\newcommand{\paramtt}{\emph{$T_{\mathsf{v}}$}}
+\newcommand{\paramtr}{\emph{$T_{\mathsf{r}}$}}
+\newcommand{\paramtol}{\emph{$E_{\mathsf{tol}}$}}
+\newcommand{\paramed}{\emph{$T_{\mathsf{e}}$}}
+
+% time values
+% CB: some of these are times (t), others parameters for time periods (T)
+\newcommand{\paramtvv}{\emph{$t_{\mathsf{v2v}}$}}
+\newcommand{\paramthb}{\emph{$t_{\mathsf{hb}}$}}
+\newcommand{\paramtout}{\emph{$t_{\mathsf{out}}$}}
+\newcommand{\paramtrev}{\emph{$t_{\mathsf{rev}}$}}
+\newcommand{\paramtsign}{\emph{$t_{\mathsf{sign}}$}}
+\newcommand{\paramtrel}{\emph{$T_{\mathsf{rel}}$}}
+\newcommand{\paramteff}{\emph{$T_{\mathsf{eff}}$}}
+\newcommand{\paramtprl}{\emph{$T_{\mathsf{prl}}$}}
+%\newcommand{\paramtra}{\emph{$t_{\mathsf{RA}}$}}
+\newcommand{\paramtra}{\emph{$t$}}
+\newcommand{\paramtmsg}{\emph{$t_{\mathsf{msg}}$}}
+
+% epoch values
+% CB: similar here: e = epoch identifier, E = epoch count
+\newcommand{\paramera}{\emph{$e$}}
+\newcommand{\paramevv}{\emph{$e_{\mathsf{v2v}}$}}
+\newcommand{\paramehb}{\emph{$e_{\mathsf{hb}}$}}
+\newcommand{\paramerev}{\emph{$e_{\mathsf{rev}}$}}
+\newcommand{\paramesign}{\emph{$E_{\mathsf{sign}}$}}
+\newcommand{\parameeff}{\emph{$E_{\mathsf{eff}}$}}
+\newcommand{\parameeprl}{\emph{$E_{\mathsf{prl}}$}}
+\newcommand{\paramemsg}{\emph{$e_{\mathsf{msg}}$}}
+
+% Attackers
+\newcommand{\attackerhonest}{\emph{honest}}
+\newcommand{\attackersmart}{\emph{smart}}
+\newcommand{\attackersmarter}{\emph{smarter}}
+\newcommand{\attackerblind}{\emph{blind}}
+\newcommand{\attackersmartprl}{\emph{smart-prl}}
+\newcommand{\attackersmarterprl}{\emph{smarter-prl}}
+\newcommand{\attackerblindprl}{\emph{blind-prl}}
+
+% Simulation parameters
+\newcommand{\simvehicles}{400}
+\newcommand{\simgroups}{20}
+\newcommand{\simattackers}{10\%}
+\newcommand{\simrevocations}{600}
+\newcommand{\simreplayrate}{30\%}
+\newcommand{\simdroprate}{0.4}
+\newcommand{\simdelayrate}{0.4}
+\newcommand{\simcorrectrate}{20\%}
+\newcommand{\simrevocationrate}{10}
+
+% Experimental results
+\newcommand{\simhonestmedian}{17}
+\newcommand{\simsmartmedian}{32}
+\newcommand{\simsmartmin}{24}
+\newcommand{\simsmartmax}{40}
+\newcommand{\simblindmedian}{20}
+\newcommand{\simsmartprlmedian}{20}
+\newcommand{\simsmartprlmin}{1.5}
+\newcommand{\simsmartprlmax}{37.5}
+
+%* time *%
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\inst}[1]{\texttt{\lowercase{#1}}}
+
+%* cloud *%
+
+\newcommand{\clouddate}{2024-03-26}
+
+\newcommand{\sev}{\ac{SEV}}
+\newcommand{\seves}{\ac{SEV}-\ac{ES}}
+\newcommand{\sevsnp}{\ac{SEV}-\ac{SNP}}
+\newcommand{\sevsnpshort}{\acs{SEV}-\acs{SNP}}
+\newcommand{\snp}{\ac{SNP}}
+\newcommand{\snpguest}{\texttt{snpguest}}
+\newcommand{\sevsnpmeasure}{\texttt{sev-snp-measure}}
+\newcommand{\dmintegrity}{\texttt{dm-integrity}}
+\newcommand{\dmverity}{\texttt{dm-verity}}
+\newcommand{\dmcrypt}{\texttt{dm-crypt}}
+\newcommand{\init}{\texttt{/init}}
+\newcommand{\vtpm}{\ac{vTPM}}
+\newcommand{\sevguest}{\texttt{/dev/sev-guest}}

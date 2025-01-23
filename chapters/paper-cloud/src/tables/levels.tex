@@ -1,0 +1,34 @@
+\begin{table}[!t]
+    \renewcommand{\arraystretch}{1.35}
+    \newcolumntype{L}{>{\raggedleft\arraybackslash}X}
+    \newcolumntype{C}{>{\centering\arraybackslash}X}
+    \newcolumntype{R}{>{\raggedright\arraybackslash}X}
+    \centering
+
+    \begin{tabularx}{.9\linewidth}{l C C C}
+        \toprule
+                                           & AWS           & Azure         & GCP           \\
+        \hline                                                              
+        TEE                                & \tableYes     & \tablePartial & \tableYes     \\
+        Firmware                           & \tableYes     & \tablePartial & \tablePartial \\
+        Kernel                             & \tablePartial & \tablePartial & \tablePartial \\
+        Root FS                            & \tablePartial & \tablePartial & \tablePartial \\
+        \hline                                                              
+        \textbf{Nominal AL}                & \textbf{4}    & \textbf{4}    & \textbf{4}    \\
+        \textbf{Trustworthy AL}            & \textbf{2}    & \textbf{0}    & \textbf{1}    \\
+        \bottomrule
+    \end{tabularx}
+
+        \vspace{0.2cm}
+        {\tableYes\xspace= Verifiable w/o trust; \tablePartial\xspace= Verifiable w/ trust; \tableNo\xspace= Not verifiable \par}
+        \vspace{0.2cm}
+        \caption[AMD SEV-SNP offerings on AWS, Azure and GCP]{AMD \sevsnpshort{} offerings on \acs{AWS}, Azure and \acs{GCP}. This
+          table reflects attestation levels described in
+          \cref{section:att-levels} and verifiability with or
+          without trust, resulting in the maximum nominal AL (with trust in the
+          \acs{CSP}) and trustworthy AL (without trust). Results dated \clouddate.}
+        \label{tbl:cloud-landscape}
+        %\vspace{-5mm}
+\end{table}
+%
+  

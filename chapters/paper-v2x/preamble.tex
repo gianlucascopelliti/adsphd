@@ -1,0 +1,97 @@
+\section*{Preamble}
+
+We conclude this journey by presenting an example of a secure integration of
+\acsp{TEE} into existing protocols and applications, taking into account the
+challenges presented in \cref{ch:time} and demonstrating how carefully-studied
+designs can provide benefits such as increased security, efficiency and
+scalability to a system. In particular, we focus on credential management
+systems in \ac{V2X} applications, where credentials need to be distributed to
+vehicles in a network in order to secure \ac{V2V} communication. A crucial
+aspect of these systems is \emph{credential revocation}, i.e., rendering the
+credentials of malicious or misbehaving vehicles unusable to preserve the safety
+of the \ac{V2X} network. It is especially important that revocation is
+\emph{timely}, i.e., it is executed within a short and predictable time, but
+also \emph{efficient}, i.e., it scales well with the potentially large size of
+the network without incurring prohibitive costs and latencies.
+
+Existing standards on \ac{V2X} credential management raise some concerns on both
+the timeliness and efficiency of their revocation
+schemes~\cite{yoshizawa2022v2x_survey}. For this reason, academic proposals have
+tried to integrate trusted computing technologies inside vehicles to enable a
+``decentralized'' credential management and
+revocation~\cite{forster2015rewire,whitefield2017privacy,desmoulins2019practical,hicks2020vehicular,larsen2021daa}.
+In these schemes, each vehicle has a \emph{trusted component} responsible for
+securely storing credentials and performing cryptographic operations such as
+message signing and verification. Other software in the vehicle, therefore, has
+no direct access to those credentials, which remain protected even in case the
+vehicle becomes compromised. However, as long as credentials are valid, an
+attacker is still able to request the trusted component to sign malicious
+\ac{V2V} messages and potentially harm the system. To effectively make
+credentials unusable, researchers have introduced the idea of
+\emph{self-revocation}, where the trusted component inside the vehicle
+autonomously deletes its credentials if requested by the \ac{V2X} infrastructure
+via a revocation message. In these proposals, trusted components are typically
+\acsp{TPM}, but \acsp{TEE} like Intel \acs{SGX} are another viable
+option~\cite{jangid2022towards}.
+
+Our contribution addresses a problem that was overlooked in previous work: What
+happens if the revocation message is never received by the trusted component,
+for example due to network malfunctions or malicious activity (either in the
+network or inside the vehicle)? To deal with this issue, researchers proposed to
+use keep-alive messages and timeouts to detect
+misbehaviour~\cite{forster2015rewire,whitefield2017privacy}, but did not give
+enough details to effectively solve the problem. Besides, they failed to
+consider a crucial point, i.e., that trusted computing technologies, and
+\acsp{TEE} in particular, cannot provide strong availability guarantees nor a
+reliable notion of time (cf.~\cref{ch:time}). In addition, previous work did not
+provide a comprehensive evaluation of their design, and it is unclear whether
+the self-revocation approach indeed gives actual benefits compared to
+traditional revocation schemes. Therefore, both the timeliness and efficiency
+properties are somewhat questionable in earlier work.
+
+The first time I read about credential management in \ac{V2X} was in January
+2022, when I came across a paper from Whitefield et
+al.~\cite{whitefield2017privacy}. In that occasion, I immediately recognized the
+potential of self-revocation, but I also quickly realized that this approach had
+many challenges that were not sufficiently addressed in the paper. Sadly, I
+noticed that even subsequent work seemed to neglect these
+issues~\cite{desmoulins2019practical,larsen2021daa}. This, nevertheless, turned
+into an opportunity to contribute to this domain. Together with Christoph
+Baumann, we designed our secure version of the self-revocation scheme, which we
+refined over the months and even submitted a patent application with title
+\emph{``Secure revocation mechanisms for V2X attestation protocols''} that was
+filed in June 2022. The core of our work, however, was ensuring that our
+approach actually gives the guarantees that earlier work could not provide. To
+this extent, much time and effort was dedicated to formally verify our scheme
+with Tamarin prover~\cite{meier2013tamarin} to satisfy the \emph{timeliness}
+property, i.e., that we can actually guarantee timely credential revocation even
+with a strong network attacker and considering the availability limitations of
+\acsp{TEE}. Part of the formal verification work was also the basis to evaluate
+the \emph{efficiency} of our scheme where, together with Fritz Alder and
+Christoph Baumann, we demonstrated that our design is efficient and scalable.
+
+Our evaluation is a significant contribution to validate our design and provide
+enough evidence about the feasibility of our approach. For reproducibility of
+results, all our code was open-sourced to allow everyone who is interested in
+our work to verify our claims. Our code was also peer-reviewed as an artifact
+alongside our paper and received all three ``Available'', ``Functional'', and
+``Reproduced'' badges. Subsequently, we also received the ``Distinguished
+Artifact Award'' during the NDSS 2024 conference. This was the recognition of
+countless hours spent on improving and documenting the code to reduce as much as
+possible the effort required to reproduce our results, which was particularly
+appreciated by the reviewers. Our code was also presented as a demo at the
+Ericsson Research Security Day 2022 and the VehicleSec 2024 workshop, co-located
+with NDSS~\cite{scopelliti2024demo}.
+
+Lastly, this contribution led to two master's theses aiming to perform a
+quantitative evaluation of revocation schemes in \ac{V2X}. Indeed, due to the
+lack of publicly available reference implementations, our paper could only
+provide a \emph{qualitative} comparison between our self-revocation scheme and
+traditional approaches. In order to carry out a ``fair'' evaluation, instead, it
+is necessary that each scheme is evaluated under the same conditions to give a
+meaningful comparison. To achieve this, our students implemented credential
+management on top of the Artery \ac{V2X} simulation
+framework~\cite{riebl2015artery}, which they used to compare active, passive and
+self-revocation mechanisms. Their results show that our self-revocation scheme
+gives the most balanced solution in terms of revocation time and network
+overhead~\cite{dehaes2024thesis,orban2024thesis}.

@@ -1,0 +1,106 @@
+%* auth-exec *%
+
+\crefname{figure}{Fig.}{Figs.}
+\Crefname{figure}{Fig.}{Figs.}
+\crefname{table}{Tab.}{Tabs.}
+\Crefname{table}{Tab.}{Tabs.}
+\crefname{section}{Sect.}{Sects.}
+\Crefname{section}{Sect.}{Sects.}
+\crefname{req}{Req.\@}{Reqs.\@}
+\Crefname{req}{Req.\@}{Reqs.\@}
+
+\pgfplotsset{
+    width=5cm, 
+    legend style={
+        font=\footnotesize,
+        %rounded corners=2pt
+    },
+    compat=newest
+}
+
+\DeclareUnicodeCharacter{2212}{−}
+\usepgfplotslibrary{groupplots,dateplot}
+\usetikzlibrary{calligraphy, calc, arrows.meta, decorations.pathreplacing, matrix, positioning, fit, backgrounds, patterns,shapes.arrows, shapes.symbols}
+
+\newlist{paraenum}{enumerate*}{1}
+\setlist[paraenum]{label=\emph{(\arabic*)}}
+
+\makeatletter
+\@ifdefinable\SC@listings@vpos{\def\SC@listings@vpos{b}}
+\newenvironment{SClisting}{\SC@float[\SC@listings@vpos]{mylisting}}{\endSC@float}
+\newenvironment{SClisting*}{\SC@dblfloat[\SC@listings@vpos]{mylisting}}{\endSC@dblfloat}
+%% `sidecap` and `float` access the name of the new float differently.
+%% You can't rely on `float` to pass `sidecap` the correct name.  So,
+%% here we manually feed the correct name for the new float in a manner 
+%% pleasing to `sidecap`.
+\@namedef{mylistingname}{Listing}
+\makeatother
+
+\lstdefinelanguage{RL}{
+  keywords={on, if, then, else, outputs},
+  ndkeywords={},
+  sensitive=false,
+  comment=[l]{//},
+  columns=fullflexible
+}
+
+\lstdefinelanguage{Sancus-C}[]{C}{
+    morekeywords={SM_ENTRY,SM_FUNC,SM_DATA,SM_INPUT,SM_OUTPUT},
+}
+
+\lstdefinelanguage{Reactive}{
+  morekeywords={module, on, if, else},
+  morecomment=[l]{\#}
+}
+
+\lstset{
+  inputpath=listings,
+  frame=lines,
+  basicstyle=\ttfamily\tiny,
+  keywordstyle=\bfseries\ttfamily,
+  ndkeywordstyle=\bfseries\ttfamily,
+  commentstyle=\itshape\ttfamily,
+  stringstyle=\ttfamily,
+  numberbychapter=false,
+  showlines=true
+}
+
+%* v2x *%
+
+\newtheorem{req}{Requirement}
+\newtheorem{defn}{Definition}
+\newtheorem{prop}{Property}
+
+\lstdefinelanguage{Tamarin}{
+  keywords={lemma,All,Ex,not,rule, restriction},
+  keywordstyle = {\bfseries},
+  otherkeywords={&,==>,.,=,<,>},
+  comment=[l]{//},
+  morecomment = [s]{/*}{*/},
+  morestring=*[d]{'},
+  columns=fullflexible
+}
+
+\lstdefinestyle{mystyle}{
+    inputpath=listings,
+    commentstyle=\color{teal},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{purple},
+    basicstyle=\ttfamily\scriptsize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=none,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\hyphenation{pseu-do-nym}
+\hyphenation{pseu-do-nyms}

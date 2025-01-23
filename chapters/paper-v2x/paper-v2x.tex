@@ -1,0 +1,37 @@
+% !TeX root = ../../thesis.tex
+\chapter{\papervtoxtitle}
+\label{ch:v2x}
+
+\acresetall
+
+This chapter was previously published as:
+
+\begin{formal}
+    \papervtoxrefr{}
+\end{formal}
+
+\input{chapters/paper-v2x/preamble.tex}
+
+\makeatletter
+\def\input@path{{chapters/paper-v2x/src/}}
+\makeatother
+
+\graphicspath{{chapters/paper-v2x/src/}}
+
+\acresetall
+
+\input{chapters/introduction.tex}
+\input{chapters/background.tex}
+\input{chapters/system-model.tex}
+\input{chapters/design.tex}
+\input{chapters/formal-verification.tex}
+\input{chapters/evaluation.tex}
+\input{chapters/discussion.tex}
+\input{chapters/conclusion.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Keep the following \cleardoublepage at the end of this file, 
+% otherwise \includeonly includes empty pages.
+\cleardoublepage
+
+% vim: tw=70 nocindent expandtab foldmethod=marker foldmarker={{{}{,}{}}}

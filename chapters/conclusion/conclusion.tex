@@ -1,10 +1,20 @@
 % !TeX root = ../../thesis.tex
-\chapter{This is conclusion}\label{ch:conclusion}
-
-\ldots
+\chapter{Conclusion}\label{ch:conclusion}
 
 \instructionsconclusions
 
+\makeatletter
+\def\input@path{{chapters/conclusion/src/}}
+\makeatother
+
+\graphicspath{{chapters/conclusion/src/}}
+
+\acresetall
+
+\input{sections/intro.tex}
+\input{sections/summary.tex}
+\input{sections/future-work.tex}
+\input{sections/remarks.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Keep the following \cleardoublepage at the end of this file, 
